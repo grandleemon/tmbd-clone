@@ -1,0 +1,34 @@
+
+.trigger__movies-menu:hover .movies-menu{
+    display: block;
+}
+
+.active-menu{
+    position: absolute;
+    display: block;
+}
+
+.hidden-menu{
+    display: none;
+}
+
+.tv-shows-menu, .movies-menu, .people-menu, .more-menu{
+    position: absolute;
+    display: none;
+}
+
+.trigger_movies:hover .movies-menu{
+    display: block;
+}
+
+.trigger_tv-shows:hover .tv-shows-menu{
+    display: block;
+}
+
+.trigger_people-menu:hover .people-menu{
+    display: block;
+}
+
+.trigger_more-menu:hover .more-menu{
+    display: block;
+}

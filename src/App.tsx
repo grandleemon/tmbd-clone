@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
-import axios from 'axios';
-import './App.css';
+import {Route, Routes} from 'react-router-dom'
+
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
+import PopularCategory from './components/PopularCategory';
+import './App.css';
+import Home from './components/Home';
 
 function App() {
  
@@ -12,7 +14,11 @@ function App() {
   return (
     <div>
       <Header/> 
-      <SearchBar/>
+      <Routes>
+        <Route path="/" element={<Home />}/>
+        <Route path="/movie" element={<PopularCategory/>}/>
+      </Routes>
+      
     </div>
   )
   
