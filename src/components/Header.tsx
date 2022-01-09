@@ -12,17 +12,17 @@ const Header = () => {
         setToggleMenu(!toggleMenu)
     }
     return (
-        <header className="bg-[#032541] w-full h-[54px] flex relative">
-            <div className="w-[95%] m-auto px-[10px]">
+        <header className="bg-[#032541] w-full h-[54px] flex relative lg:h-[64px]">
+            <div className="w-[95%] m-auto px-[10px] md:w-[80%] lg:w-[65%]">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center">
-                        <div className="w-[104px] h-[20px]">
+                        <div className="w-[104px] h-[20px] lg:w-[154px]">
                             <a href="#">
                                 <img src={logo} alt="" />
                             </a>
                         </div>
-                        <div className="ml-[25px] hidden">
-                            <ul className="text-white text-[16px] flex gap-[20px]">
+                        <div className="ml-[25px] hidden sm:block">
+                            <ul className="text-white text-[15px] flex gap-[20px] lg:text-[16px]">
                                 <li><a className="p-[7px]" href="#">Movies</a></li>
                                 <li><a className="p-[7px]" href="#">TV Shows</a></li>
                                 <li><a className="p-[7px]" href="#">People</a></li>
@@ -30,7 +30,7 @@ const Header = () => {
                             </ul>
                         </div>
                     </div>
-                    <div className="hidden">
+                    <div className="hidden sm:block">
                         <ul className="flex items-center gap-[20px]">
                             <li>
                                 <a href="#"> <img src={notification} alt="" className="w-[24px] h-[24px] cur"/> </a>
