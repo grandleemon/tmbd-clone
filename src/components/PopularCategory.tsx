@@ -22,7 +22,6 @@ const PopularCategory = () => {
                 .then((response) => {
                 const allMovies = response.data.results;
                 setMovies(allMovies)
-                console.log(allMovies)
                 })
             } catch (error) {
                 console.error(error)
@@ -33,9 +32,9 @@ const PopularCategory = () => {
 
     return (
         <div className="w-[95%] m-auto md:w-[80%] lg:w-[65%]">
-            <div className="flex items-center">
+            <div className="flex items-center mt-[40px]">
                 <h2 className="text-[24px] font-bold">Popular Movies</h2>
-                <div className="border border-[#032541] rounded-full ml-[40px] hidden">
+                <div className="border border-[#032541] rounded-full ml-[40px] hidden md:block">
                     <button className="font-medium px-[20px] py-[4px] hover:bg-[#032541] rounded-full hover:text-[#1ed5a9] duration-300">Streaming</button>
                     <button className="font-medium px-[20px] py-[4px] hover:bg-[#032541] rounded-full hover:text-[#1ed5a9] duration-300">On TV</button>
                     <button className="font-medium px-[20px] py-[4px] hover:bg-[#032541] rounded-full hover:text-[#1ed5a9] duration-300">For Rent</button>
@@ -44,7 +43,7 @@ const PopularCategory = () => {
             </div>  
             <div className="flex flex-wrap gap-x-[50px] gap-y-[60px] mt-[20px] justify-center">
                 {movies.map( (movie: {title: string, poster_path: string, release_date: string, id: number, vote_average: number}) => (
-                    <MovieCard key={movie.id} setVoteClass={setVoteClass} title={movie.title} poster_path={movie.poster_path} release_date={movie.release_date} vote_average={movie.vote_average} basicImageUrl={basicImageUrl}/>
+                    <MovieCard id={movie.id} key={movie.id} setVoteClass={setVoteClass} title={movie.title} poster_path={movie.poster_path} release_date={movie.release_date} vote_average={movie.vote_average} basicImageUrl={basicImageUrl}/>
                 ) )}
             </div>
         </div>

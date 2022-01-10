@@ -1,0 +1,13 @@
+.facebook-trigger:hover span, .twitter-trigger:hover span, .instagram-trigger:hover span, .homepage-trigger:hover span{
+    display: block;
+}
+
+.facebook-trigger, .twitter-trigger, .instagram-trigger, .homepage-trigger{
+    position: relative;
+}
+
+.facebook-label, .twitter-label, .instagram-label, .homepage-label{
+    position: absolute;
+    display: none;
+    top: -30px;
+}

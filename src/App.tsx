@@ -6,6 +6,7 @@ import SearchBar from './components/SearchBar';
 import PopularCategory from './components/PopularCategory';
 import './App.css';
 import Home from './components/Home';
+import MovieDetails from './components/MovieDetails';
 
 function App() {
  
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}/>
         <Route path="/movie" element={<PopularCategory/>}/>
+        <Route path="/movie/:id" element={<MovieDetails />}/>
       </Routes>
       
     </div>
