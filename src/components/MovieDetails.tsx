@@ -13,7 +13,7 @@ import './MovieDetails.css'
 
 const url = "https://api.themoviedb.org/3/movie/{movie_id}?api_key=1e5bf08e3e7de0739102ef8a9c371945&language=en-US"
 
-interface MovieDetailsTypes {
+export interface MovieDetailsTypes {
     backdrop_path: string,
     title: string, 
     poster_path: string, 
@@ -54,6 +54,9 @@ const MovieDetails = () => {
     const [creditDetailsCast, setCreditDetailsCast] = useState([])
     const [socials, setSocials] = useState<Socials>()
     const [movieKeywords, setKeywords] = useState([])
+    const [reviews, setReviews] = useState([])
+
+    document.title = `${movieDetails?.title}`
 
     useEffect( () => {
         async function getMovieDetails(){
@@ -97,10 +100,21 @@ const MovieDetails = () => {
                 console.error(error)
             }
         }
+        async function getReviews(){
+            try{
+                const res = await axios.get(`https://api.themoviedb.org/3/movie/${id}/reviews?api_key=1e5bf08e3e7de0739102ef8a9c371945&language=en-US&page=1`)
+                .then( (response) => {
+                    setReviews(response.data.results)
+                })
+            } catch (error) {
+                console.error(error)
+            }
+        }
         getMovieDetails();
         getCreditDetails();
         getSocialsIds();
         getMovieKeywords();
+        getReviews();
     }, [])
 
     const calcTime = (time: number | undefined) => {
@@ -114,17 +128,17 @@ const MovieDetails = () => {
 
     const setVoteClass = (vote: number | undefined) => {
         if(vote){
-            if (vote >= 8) return "tag-green"
-            if (vote >= 6) return "tag-orange"
-            if (vote < 6) return "tag-red"
+            if (vote >= 7) return "tag-green"
+            if (vote >= 4) return "tag-orange"
+            if (vote < 4) return "tag-red"
         }
     }
 
-    console.log(movieKeywords)
+    console.log(reviews)
 
     return (
         <div>
-            <div className="w-[95%] m-auto md:w-[80%] lg:w-[65%]">
+            <div className="w-[95%] m-auto md:w-[80%] lg:w-[70%]">
                 <ul className="flex justify-center gap-x-[50px] items-center h-[46px]">
                     <li><span>Overview</span></li>
                     <li><span>Media</span></li>
@@ -135,7 +149,7 @@ const MovieDetails = () => {
             <div className="w-full h-[800px] relative">
                 <img src={basicImageUrl + movieDetails?.backdrop_path} alt="backdrop-image" className="w-full h-[800px] object-cover object-top" />
                 <div className="absolute bg-gradient-to-r from-black w-full h-[800px] top-0">
-                    <div className="w-[95%] m-auto md:w-[80%] lg:w-[65%] flex pt-[40px] gap-[50px]">
+                    <div className="w-[95%] m-auto md:w-[80%] lg:w-[70%] flex pt-[40px] gap-[50px]">
                         <div className="w-[400px] h-[500px]">
                             <img src={basicImageUrl + movieDetails?.poster_path} alt="poster" className="w-[400px] h-[500px] object-cover"/>
                         </div>
@@ -145,7 +159,7 @@ const MovieDetails = () => {
                                 <span className="opacity-80 text-[2.2rem]"> ({moment(movieDetails?.release_date).format('YYYY')})</span> <br />
                                 <div className="px-[4px] border opacity-60 inline">{movieDetails?.adult ? "PG-18" : "PG-13"}</div>
                                 <span className="ml-[10px]">{moment(movieDetails?.release_date).format('L')}</span>
-                                <span className="ml-[10px]">({movieDetails?.production_countries[0].iso_3166_1})</span>
+                                <span className="ml-[10px]">({movieDetails?.production_countries[0]?.iso_3166_1})</span>
                                 <span className="ml-[10px]">&bull;</span>
                                 {movieDetails?.genres.map( (genre: {name: string}) => (
                                     <span className="ml-[10px]">{genre.name}</span>
@@ -175,42 +189,77 @@ const MovieDetails = () => {
                     </div>
                 </div>
             </div>
-            <div className="w-[95%] m-auto md:w-[80%] lg:w-[65%] pt-[30px] grid grid-cols-4">
+            <div className="w-[95%] m-auto md:w-[80%] lg:w-[70%] pt-[30px] grid grid-cols-4">
                 <div className="col-span-3">
                     <p className="text-[1.5em] font-bold">Top Billed Cast</p>
-                    <div className="flex gap-x-[20px] mt-[20px] overflow-x-scroll">
-                        {creditDetailsCast.slice(0, 9).map( (cast: {name: string, profile_path: string, character: string}) => (
-                            <div className="min-w-[138px]">
+                    <div className="flex gap-x-[20px] mt-[20px] overflow-x-scroll pb-[30px]">
+                        {creditDetailsCast?.slice(0, 9).map( (cast: {name: string, profile_path: string, character: string}) => (
+                            <div className="min-w-[138px] min-h-[255px] cast-card-shadow border">
                                 <div>
-                                    {cast.profile_path ? <img src={basicImageUrl + cast.profile_path} alt="profile-image" className="w-[138px] h-[175px] rounded-t-md object-cover"/> : <div className="h-[175px]">no image</div>}
+                                    {cast?.profile_path ? <img src={basicImageUrl + cast.profile_path} alt="profile-image" className="w-[138px] h-[175px] rounded-t-md object-cover"/> : <div className="h-[175px]">no image</div>}
                                 </div>
-                                <div className="p-[10px] border border-t-0 min-h-[100px] mb-[30px] w-[138px] rounded-b-md shadow-lg">
-                                    <p className="font-bold truncate">{cast.name}</p>
-                                    <p className="text-[15px]">{cast.character}</p>
+                                <div className="p-[10px] min-h-[100px] w-[138px] rounded-b-md">
+                                    <p className="font-bold w-full">{cast?.name}</p>
+                                    <p className="text-[15px]">{cast?.character}</p>
                                 </div>
                             </div>
                         ))}
                     </div>
                     <p className="font-bold text-[1.5em] mt-[20px]">Full Cast & Crew</p>
+                    <hr className="border mt-[30px] mb-[30px]" />
+                    <div>
+                        <div>
+                            <ul className="flex gap-x-[30px] font-bold items-center">
+                                <li className="text-[1.3em] cursor-pointer">Social</li>
+                                <li className="text-[1.1em] cursor-pointer">Reviews</li>
+                                <li className="text-[1.1em] cursor-pointer">Discussions</li>
+                            </ul>
+                        </div>
+                        <div className="flex flex-col gap-y-[30px] mt-[20px]">
+                            {reviews.map((review: {content: string, author: string, created_at: string, author_details: {avatar_path: string}}) => (
+                                <div className="border p-[20px] grid grid-cols-12 rounded-md shadow-lg">
+                                    <div className="w-[64px] h-[64px] col-span-1">
+                                        {review?.author_details?.avatar_path ?
+                                        <img src={!review?.author_details?.avatar_path?.indexOf('/https') ? review?.author_details?.avatar_path?.slice(1) : basicImageUrl + review?.author_details?.avatar_path} alt="" className="w-[64px] h-[64px] rounded-full"/> : <div className="w-[64px] h-[64px] rounded-full"> no image </div>}
+                                    </div>
+                                    <div className="ml-[20px] col-span-11">
+                                        <span className="font-bold text-[1.2em]">A review by {review?.author}</span>
+                                        <p className="text-[14px] opacity-80">Written by <span className="font-semibold">{review?.author}</span> on {moment(review?.created_at).format('MMM D, YYYY')}</p>
+                                        <div className="mt-[30px]">
+                                            {review?.content?.length >= 1000 ? review?.content.substring(0, 1000) + "..." + "read THE REST" : review?.content}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
                 <div className="pl-[25px]">
                     <div className="flex gap-x-[20px]">
+                        {socials?.facebook_id && 
                         <a href={`https://www.facebook.com/${socials?.facebook_id}`} target="_blank" className="facebook-trigger">
                             <img src={facebook} alt="fb-icon" className="w-[32px] h-[32px] inline" />
                             <span className="facebook-label w-[200px]">Visit Facebook</span>
                         </a>
+                        }
+                        {socials?.twitter_id &&
                         <a href={`https://www.twitter.com/${socials?.twitter_id}`} target="_blank" className="twitter-trigger">
                             <img src={twitter} alt="fb-icon" className="w-[32px] h-[32px] inline" />
                             <span className="twitter-label w-[200px]">Visit Twitter</span>
                         </a>
+                        }
+                        {socials?.instagram_id &&
                         <a href={`https://www.instagram.com/${socials?.instagram_id}`} target="_blank" className="instagram-trigger">
                             <img src={instagram} alt="fb-icon" className="w-[32px] h-[32px] inline" />
                             <span className="instagram-label w-[200px]">Visit Instagram</span>
                         </a>
+                        }
+                        {movieDetails?.homepage &&
                         <a href={movieDetails?.homepage} target="_blank" className="homepage-trigger">
                             <img src={homepage} alt="fb-icon" className="w-[32px] h-[32px] inline" />
                             <span className="homepage-label w-[200px]">Visit Homepage</span>
                         </a>
+                        }
                     </div>
                     <div className="mt-[20px]">
                         <p className="font-bold text-[1.2em]">Status</p>
@@ -218,20 +267,22 @@ const MovieDetails = () => {
                         <p className="font-bold text-[1.2em] mt-[15px]">Original Language</p>
                         <p className="uppercase">{movieDetails?.original_language}</p>
                         <p className="font-bold text-[1.2em] mt-[15px]">Budget</p>
-                        <p>${numberWithCommas(movieDetails?.budget)}</p>
+                        {movieDetails?.budget ? <p>${numberWithCommas(movieDetails?.budget)}</p> : "-"}
                         <p className="font-bold text-[1.2em] mt-[15px]">Revenue</p>
-                        <p>${numberWithCommas(movieDetails?.revenue)}</p>
+                        {movieDetails?.revenue ? <p>${numberWithCommas(movieDetails?.revenue)}</p> : "-"}
                     </div>
                     <div className="mt-[20px]">
                         <p className="font-bold text-[1.2em]">Keywords</p>
-                        <div className="flex flex-wrap gap-[8px] mt-[10px]">
-                            {movieKeywords.map((keyword: {name: string}) => (
+                         <div className="flex flex-wrap gap-[8px] mt-[10px]">
+                            {movieKeywords.length ? movieKeywords?.map((keyword: {name: string}) => (
                                 <p className="text-[14px] bg-[#0000001a] px-[10px] py-[4px] border border-[#d7d7d7] rounded-md">{keyword.name}</p>
-                            ))}
+                            )) : "No keywords have been added."}
                         </div>
                     </div>
+                    <hr className="border mt-[30px] mb-[30px]" />
                 </div>
             </div>
+            
         </div>
     )
 }
