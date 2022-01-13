@@ -151,7 +151,9 @@ const MovieDetails = () => {
         navigate(`/movie/${id}-${title}`)
     }
 
-    console.log(recomendations)
+    const handleKeywordNavigate = (id: number, name: string) => {
+        navigate(`/keyword/${id}-${name}`)
+    }
 
     return (
         <div>
@@ -308,8 +310,8 @@ const MovieDetails = () => {
                     <div className="mt-[20px]">
                         <p className="font-bold text-[1.2em]">Keywords</p>
                          <div className="flex flex-wrap gap-[8px] mt-[10px]">
-                            {movieKeywords.length ? movieKeywords?.map((keyword: {name: string}) => (
-                                <p className="text-[14px] bg-[#0000001a] px-[10px] py-[4px] border border-[#d7d7d7] rounded-md">{keyword.name}</p>
+                            {movieKeywords.length ? movieKeywords?.map((keyword: {name: string, id:number}) => (
+                                <p className="text-[14px] bg-[#0000001a] px-[10px] py-[4px] border border-[#d7d7d7] rounded-md cursor-pointer hover:underline" onClick={() => handleKeywordNavigate(keyword.id, keyword.name)}>{keyword.name}</p>
                             )) : "No keywords have been added."}
                         </div>
                     </div>
