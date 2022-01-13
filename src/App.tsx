@@ -8,11 +8,9 @@ import './App.css';
 import Home from './components/Home';
 import MovieDetails from './components/MovieDetails';
 import ScrollToTop from './components/ScrollToTop';
+import Footer from './components/Footer';
 
 function App() {
- 
-
-
   return (
     <div>
       <ScrollToTop />
@@ -22,6 +20,7 @@ function App() {
         <Route path="/movie" element={<PopularCategory/>}/>
         <Route path="/movie/:id-:title" element={<MovieDetails />}/>
       </Routes>
+      <Footer />
       
     </div>
   )

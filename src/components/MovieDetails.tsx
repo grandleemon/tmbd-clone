@@ -1,7 +1,7 @@
 import axios from 'axios'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import facebook from './../assets/facebook.png'
 import twitter from './../assets/twitter.png'
@@ -48,13 +48,15 @@ function numberWithCommas(x:number | undefined) {
 
 const MovieDetails = () => {
     const basicImageUrl = "https://image.tmdb.org/t/p/original/"
-    let { id } = useParams()
+    const { id } = useParams()
+    const navigate = useNavigate()
     const [movieDetails, setMovieDetails]= useState<MovieDetailsTypes>()
     const [creditDetailsCrew, setCreditDetailsCrew] = useState([])
     const [creditDetailsCast, setCreditDetailsCast] = useState([])
     const [socials, setSocials] = useState<Socials>()
     const [movieKeywords, setKeywords] = useState([])
     const [reviews, setReviews] = useState([])
+    const [recomendations, setRecomendations] = useState([])
 
     document.title = `${movieDetails?.title}`
 
@@ -110,12 +112,23 @@ const MovieDetails = () => {
                 console.error(error)
             }
         }
+        async function getRecomendations(){
+            try{
+                const res = await axios.get(`https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=1e5bf08e3e7de0739102ef8a9c371945&language=en-US&page=1`)
+                .then((response) => {
+                    setRecomendations(response.data.results)
+                }) 
+            } catch (err) {
+                console.error(err)
+            }
+        }
         getMovieDetails();
         getCreditDetails();
         getSocialsIds();
         getMovieKeywords();
         getReviews();
-    }, [])
+        getRecomendations();
+    }, [movieDetails])
 
     const calcTime = (time: number | undefined) => {
         if(time){
@@ -134,7 +147,11 @@ const MovieDetails = () => {
         }
     }
 
-    console.log(reviews)
+    const handleNavigate = (id: number, title: string) => {
+        navigate(`/movie/${id}-${title}`)
+    }
+
+    console.log(recomendations)
 
     return (
         <div>
@@ -231,6 +248,23 @@ const MovieDetails = () => {
                                     </div>
                                 </div>
                             ))}
+                        </div>
+                        <hr className="border mt-[30px]" />
+                        <div className="mt-[30px]">
+                            <h2 className="font-semibold text-[1.5em]">Recomendations</h2>
+                            <div className="flex overflow-x-scroll gap-x-[30px]">
+                                        {recomendations?.map((recomendation: {backdrop_path: string, title: string, vote_average: number, id: number}) => (
+                                            <div className="w-[250px] h-[184px] cursor-pointer" onClick={ () => handleNavigate(recomendation.id, recomendation.title)}>
+                                                <div className="w-[250px] h-[141px]">
+                                                    <img src={basicImageUrl + recomendation?.backdrop_path} alt="backdrop-img" className="w-[250px] h-[141px] rounded-md"/>
+                                                </div>
+                                                <div className="flex justify-between">
+                                                    <span className="truncate">{recomendation?.title}</span>
+                                                    <span>{Math.ceil(recomendation?.vote_average * 10)}%</span>
+                                                </div>
+                                            </div>
+                                        ))}
+                            </div>
                         </div>
                     </div>
                 </div>
