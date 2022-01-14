@@ -6,7 +6,7 @@ import { MovieDetailsTypes } from './MovieDetails'
 import SearchBar from './SearchBar'
 import loader from './../assets/loader.gif'
 
-const Home = () => {
+const Home = (props: any) => {
     document.title = "The Movie Database (TMDB)"
     const navigate = useNavigate()
     const [movies, setMovies] = useState([])

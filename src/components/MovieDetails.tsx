@@ -7,6 +7,9 @@ import facebook from './../assets/facebook.png'
 import twitter from './../assets/twitter.png'
 import instagram from './../assets/instagram.png'
 import homepage from './../assets/home.png'
+import blank from './../assets/blank-icon.png'
+import blankUser from './../assets/blank-user-profile.png'
+import heart from './../assets/heart.png'
 
 import './MovieDetails.css'
 
@@ -14,7 +17,7 @@ import './MovieDetails.css'
 const url = "https://api.themoviedb.org/3/movie/{movie_id}?api_key=1e5bf08e3e7de0739102ef8a9c371945&language=en-US"
 
 export interface MovieDetailsTypes {
-    backdrop_path: string,
+    backdrop_path: string | null,
     title: string, 
     poster_path: string, 
     release_date: string, 
@@ -46,7 +49,7 @@ function numberWithCommas(x:number | undefined) {
     return x.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-const MovieDetails = () => {
+const MovieDetails = (props: any) => {
     const basicImageUrl = "https://image.tmdb.org/t/p/original/"
     const { id } = useParams()
     const navigate = useNavigate()
@@ -155,6 +158,16 @@ const MovieDetails = () => {
         navigate(`/keyword/${id}-${name}`)
     }
 
+    const addToFavourite = async () => {
+        if(props.session){
+            await axios.post(`https://api.themoviedb.org/3/account/${props.userInfo.id}/favorite?api_key=1e5bf08e3e7de0739102ef8a9c371945&session_id=${props.session}`, {media_type: "movie", media_id: id, favourite: "true"}).then(response => {
+                console.log(response)
+            })
+        } else {
+            alert("you need to login first")
+        }
+    }
+
     return (
         <div>
             <div className="w-[95%] m-auto md:w-[80%] lg:w-[70%]">
@@ -166,12 +179,14 @@ const MovieDetails = () => {
                 </ul>
             </div>
             <div className="w-full h-[800px] relative">
-                <img src={basicImageUrl + movieDetails?.backdrop_path} alt="backdrop-image" className="w-full h-[800px] object-cover object-top" />
-                <div className="absolute bg-gradient-to-r from-black w-full h-[800px] top-0">
+                <img src={basicImageUrl + movieDetails?.backdrop_path} alt="backdrop-image" className="w-full h-[800px] object-cover object-top" /> 
+                <div className={`absolute ${movieDetails?.backdrop_path ? "bg-gradient-to-r from-black" : "bg-[#a7a2a2]"} w-full h-[800px] top-0`}>
                     <div className="w-[95%] m-auto md:w-[80%] lg:w-[70%] flex pt-[40px] gap-[50px]">
-                        <div className="w-[400px] h-[500px]">
+                        {movieDetails?.poster_path ? <div className="w-[400px] h-[500px]">
                             <img src={basicImageUrl + movieDetails?.poster_path} alt="poster" className="w-[400px] h-[500px] object-cover"/>
-                        </div>
+                        </div> : <div className="w-[400px] h-[500px] bg-[#c7c2c2d6] flex items-center justify-center rounded-lg">
+                                    <img src={blank} alt="" className="w-[100px] h-[100px] "/>
+                            </div>}
                         <div className="w-[70%]">
                             <div className="text-white">
                                 <span className="font-bold text-[2.2rem]">{movieDetails?.title}</span>
@@ -190,6 +205,9 @@ const MovieDetails = () => {
                                         <span className="text-[11px]">%</span>
                                     </div>
                                     <span className="font-bold ml-[11px]">User <br /> Score</span>
+                                    <div className="w-[60px] h-[60px] rounded-full flex items-center justify-center bg-[#153e4a] cursor-pointer ml-[11px]" onClick={addToFavourite}>
+                                        <img src={heart} alt="" className="w-[32px] h-[32px]" />
+                                    </div>
                                 </div>
                                 <div className="mt-[25px]">
                                     <span className="font-bold text-[1.5em]">Overview</span>
@@ -206,7 +224,7 @@ const MovieDetails = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> 
             </div>
             <div className="w-[95%] m-auto md:w-[80%] lg:w-[70%] pt-[30px] grid grid-cols-4">
                 <div className="col-span-3">
@@ -215,7 +233,9 @@ const MovieDetails = () => {
                         {creditDetailsCast?.slice(0, 9).map( (cast: {name: string, profile_path: string, character: string}) => (
                             <div className="min-w-[138px] min-h-[255px] cast-card-shadow border">
                                 <div>
-                                    {cast?.profile_path ? <img src={basicImageUrl + cast.profile_path} alt="profile-image" className="w-[138px] h-[175px] rounded-t-md object-cover"/> : <div className="h-[175px]">no image</div>}
+                                    {cast?.profile_path ? <img src={basicImageUrl + cast.profile_path} alt="profile-image" className="w-[138px] h-[175px] rounded-t-md object-cover"/> : <div className="h-[175px] bg-[#c7c2c2d6] flex items-center justify-center">
+                                            <img src={blankUser} className="w-[50px] h-[50px]" alt="" />
+                                        </div>}
                                 </div>
                                 <div className="p-[10px] min-h-[100px] w-[138px] rounded-b-md">
                                     <p className="font-bold w-full">{cast?.name}</p>
@@ -257,9 +277,11 @@ const MovieDetails = () => {
                             <div className="flex overflow-x-scroll gap-x-[30px]">
                                         {recomendations?.map((recomendation: {backdrop_path: string, title: string, vote_average: number, id: number}) => (
                                             <div className="w-[250px] h-[184px] cursor-pointer" onClick={ () => handleNavigate(recomendation.id, recomendation.title)}>
-                                                <div className="w-[250px] h-[141px]">
+                                                {recomendation?.backdrop_path ? <div className="w-[250px] h-[141px]">
                                                     <img src={basicImageUrl + recomendation?.backdrop_path} alt="backdrop-img" className="w-[250px] h-[141px] rounded-md"/>
-                                                </div>
+                                                </div> : <div className="w-[250px] h-[141px] flex items-center justify-center bg-[#c7c2c2d6]">
+                                                        <img src={blank} alt="" className="w-[50px] h-[50px]"/>
+                                                    </div>}
                                                 <div className="flex justify-between">
                                                     <span className="truncate">{recomendation?.title}</span>
                                                     <span>{Math.ceil(recomendation?.vote_average * 10)}%</span>

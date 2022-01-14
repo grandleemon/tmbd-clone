@@ -5,13 +5,30 @@ import user from './../assets/user.svg'
 import search from './../assets/search.svg'
 import menu from './../assets/menu.png'
 import './Header.css'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import axios from 'axios'
 
-const Header = () => {
+interface accountTypes {
+    username: string
+}
+
+const Header = (props:any) => {
     const [toggleMenu, setToggleMenu] = useState<boolean>(false);
+    const [account, setAccount]: any = useState('')
 
     const handleMenu = () => {
         setToggleMenu(!toggleMenu)
+    }
+
+    const getAccountDetails = async () => {
+        await axios.get(`https://api.themoviedb.org/3/account?api_key=1e5bf08e3e7de0739102ef8a9c371945&session_id=${props.session}`)
+        .then(response => {
+           setAccount(response.data)
+        })
+    }
+
+    if(props.session) {
+        getAccountDetails()
     }
 
     return (
@@ -75,9 +92,9 @@ const Header = () => {
                             <li>
                                 <a href="#"> <img src={notification} alt="" className="w-[24px] h-[24px] cur"/> </a>
                             </li>
-                            <li>
-                                <a href="#"> <img src={user} alt="" className="w-[32px] h-[32px]" /> </a>
-                            </li>
+                            {!props.session ? <li>
+                                <a href={`https://www.themoviedb.org/authenticate/${props.token}?redirect_to=http://localhost:3000/approved`}> <img src={user} alt="" className="w-[32px] h-[32px]" /> </a>
+                            </li> : <span className="text-white" onClick={getAccountDetails}>{account.username}</span>}
                             <li>
                                 <a href="#sdaa"> <img src={search} alt="" className="w-[32px] h-[32px]" /> </a>
                             </li>
