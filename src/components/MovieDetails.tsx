@@ -158,9 +158,9 @@ const MovieDetails = (props: any) => {
         navigate(`/keyword/${id}-${name}`)
     }
 
-    const addToFavourite = async () => {
+    const addToFavorite = async () => {
         if(props.session){
-            await axios.post(`https://api.themoviedb.org/3/account/${props.userInfo.id}/favorite?api_key=1e5bf08e3e7de0739102ef8a9c371945&session_id=${props.session}`, {media_type: "movie", media_id: id, favourite: "true"}).then(response => {
+            await axios.post(`https://api.themoviedb.org/3/account/1/favorite?api_key=1e5bf08e3e7de0739102ef8a9c371945&session_id=${props.session}`, {media_type: "movie", media_id: id, favorite: "true"}).then(response => {
                 console.log(response)
             })
         } else {
@@ -205,7 +205,7 @@ const MovieDetails = (props: any) => {
                                         <span className="text-[11px]">%</span>
                                     </div>
                                     <span className="font-bold ml-[11px]">User <br /> Score</span>
-                                    <div className="w-[60px] h-[60px] rounded-full flex items-center justify-center bg-[#153e4a] cursor-pointer ml-[11px]" onClick={addToFavourite}>
+                                    <div className="w-[60px] h-[60px] rounded-full flex items-center justify-center bg-[#153e4a] cursor-pointer ml-[11px]" onClick={addToFavorite}>
                                         <img src={heart} alt="" className="w-[32px] h-[32px]" />
                                     </div>
                                 </div>
