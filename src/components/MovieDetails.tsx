@@ -36,11 +36,10 @@ function numberWithCommas(x:number | undefined) {
 }
 
 const MovieDetails = (props: any) => {
-    const {id, title}: any = useParams()
+    const {id}: any = useParams()
     const [movieDetails, setMovieDetails]= useState<MovieDetailsTypes>()
 
     useEffect( () => {
-        
         getMovieDetails(id, setMovieDetails);
     }, [id])  
     

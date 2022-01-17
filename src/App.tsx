@@ -12,6 +12,8 @@ import Footer from './components/Footer';
 import axios from 'axios';
 import MoreMoviesByKeyword from './components/MoreMoviesByKeyword';
 import Approved from './components/Approved';
+import FavoritesMovies from './components/FavoritesMovies';
+import UserAccount from './components/UserAccount';
 
 function App() {
   const [token, setToken] = useState('')
@@ -43,8 +45,6 @@ function App() {
     }
   },[session])
 
-  console.log(userInfo)
-
   return (
     <div>
       <ScrollToTop />
@@ -55,6 +55,8 @@ function App() {
         <Route path="/movie/:id-:title" element={<MovieDetails session={session} userInfo={userInfo} />}/>
         <Route path="/keyword/:id-:name" element={<MoreMoviesByKeyword />}/>
         <Route path="/approved" element={<Approved createAuthorizedSession={createAuthorizedSession}/>}/>
+        <Route path="/account/:id" element={<UserAccount />}/>
+        <Route path="/account/:id/favorites" element={<FavoritesMovies session={session}/>}/>
       </Routes>
       <Footer />
       
