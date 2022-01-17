@@ -15,7 +15,6 @@ import Approved from './components/Approved';
 
 function App() {
   const [token, setToken] = useState('')
-  const navigate = useNavigate()
   const [session, setSession] = useState('')
   const [userInfo, setUserInfo] = useState('')
 
@@ -27,9 +26,7 @@ function App() {
     async function getRequestToken(){
       try { 
           const res = await axios.get(`https://api.themoviedb.org/3/authentication/token/new?api_key=1e5bf08e3e7de0739102ef8a9c371945`)
-          .then((response) => {
-              setToken(response.data.request_token)
-          })
+          setToken(res.data.request_token)
       } catch (error) {
           console.error(error)
       }
@@ -37,23 +34,16 @@ function App() {
     getRequestToken()
   },[])
 
-  // if(session){
-  //   axios.get(`https://api.themoviedb.org/3/account?api_key=1e5bf08e3e7de0739102ef8a9c371945&session_id=${session}`)
-  //   .then(response => {
-  //       setUserInfo(response.data)
-  //   })
-  // }
+  useEffect( () => {
+    if(session){
+      axios.get(`https://api.themoviedb.org/3/account?api_key=1e5bf08e3e7de0739102ef8a9c371945&session_id=${session}`)
+      .then(response => {
+          setUserInfo(response.data)
+      })
+    }
+  },[session])
 
-  if(token){
-    console.log('user is authorized')
-  } else {
-    console.log('user is not authorized')
-  }
-
-  const handleSubmit = () => {
-    navigate(`https://www.themoviedb.org/authenticate/${token}?redirect_to=http:/localhost:3000/approved`)
-  }
-
+  console.log(userInfo)
 
   return (
     <div>

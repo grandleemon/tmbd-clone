@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import logo from './../assets/logo.svg'
 import notification from './../assets/bell.png'
 import user from './../assets/user.svg'
@@ -27,9 +27,12 @@ const Header = (props:any) => {
         })
     }
 
-    if(props.session) {
-        getAccountDetails()
-    }
+    useEffect( () => {
+        if(props.session) {
+            getAccountDetails()
+        }
+    }, [props.session])
+    
 
     return (
         <header className="bg-[#032541] w-full h-[54px] flex relative lg:h-[64px]">

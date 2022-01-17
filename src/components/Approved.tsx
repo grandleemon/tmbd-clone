@@ -10,7 +10,7 @@ const Approved = (props: any) => {
 
     useEffect( () => {
         async function createNewSession(){
-            try{
+            try {
                 const res = await axios.post(`https://api.themoviedb.org/3/authentication/session/new?api_key=1e5bf08e3e7de0739102ef8a9c371945`, {request_token: token})
                 .then(response => {
                     setSessionId(response.data.session_id);
@@ -22,7 +22,9 @@ const Approved = (props: any) => {
         createNewSession();
     },[])
 
-    props.createAuthorizedSession(sessionId)
+    useEffect( () => {
+        props.createAuthorizedSession(sessionId)
+    },[sessionId])
 
     return (
         <div>

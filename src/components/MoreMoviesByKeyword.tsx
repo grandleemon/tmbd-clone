@@ -7,10 +7,10 @@ const MoreMoviesByKeyword = () => {
     const navigate = useNavigate()
     const {id, name} = useParams()
     const [moviesByKeyword, setMoviesByKeyword] = useState([])
-    document.title = `${name} results`
     const basicImageUrl = "https://image.tmdb.org/t/p/original/"
 
     useEffect( () => {
+        document.title = `${name} results`
         axios.get(`https://api.themoviedb.org/3/keyword/${id}/movies?api_key=1e5bf08e3e7de0739102ef8a9c371945&language=en-US`)
         .then(response => {
             setMoviesByKeyword(response.data.results)

@@ -20,7 +20,6 @@ const PopularCategory = () => {
          await axios.get(apiUrl)
             .then((response) => {
                 const newMovies = response.data.results;
-                console.log(...newMovies)
                 setMovies([...movies, ...newMovies])
              })
         }
@@ -30,8 +29,8 @@ const PopularCategory = () => {
         getMoreMovies();
     }
 
-    
     useEffect( () => {
+        document.title = "Popular Movies"
         async function getMovies(){
             try {
                 const res = await axios.get(apiUrl)
@@ -46,8 +45,6 @@ const PopularCategory = () => {
         getMovies();
         setPage(page + 1)
     }, []);
-
-    document.title = "Popular Movies"
 
     return (
         <div className="w-[95%] m-auto md:w-[80%] lg:w-[65%]">

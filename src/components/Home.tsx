@@ -7,7 +7,6 @@ import SearchBar from './SearchBar'
 import loader from './../assets/loader.gif'
 
 const Home = (props: any) => {
-    document.title = "The Movie Database (TMDB)"
     const navigate = useNavigate()
     const [movies, setMovies] = useState([])
     const [page, setPage] = useState<number>(Math.floor(Math.random() * 100))
@@ -16,6 +15,7 @@ const Home = (props: any) => {
     const basicImageUrl = "https://image.tmdb.org/t/p/original/"
 
     useEffect( () => {
+        document.title = "The Movie Database (TMDB)"
         async function getMovies(){
             try {
                 const res = await axios.get(apiUrl)
@@ -43,8 +43,6 @@ const Home = (props: any) => {
         navigate(`/movie/${id}-${title}`)
     }
 
-    
-
     return (
         <div>
             <SearchBar />
@@ -60,7 +58,7 @@ const Home = (props: any) => {
                 </div>
                 {isLoading ? <div className="flex overflow-x-scroll gap-x-[20px] mt-[20px]">
                     {movies.map((movie: {title: string, poster_path: string, vote_average: number, release_date: string, id: number}) => (
-                        <div className="w-[150px] h-[400px] relative">
+                        <div key={movie.id} className="w-[150px] h-[400px] relative">
                             <div className="h-[225px] w-[150px]">
                                 <img src={basicImageUrl + movie?.poster_path} alt="" className="h-[225px] w-[150px] rounded-lg cursor-pointer" onClick={() => handleNavigate(movie.id, movie.title)}/>
                             </div>
