@@ -14,11 +14,20 @@ import MoreMoviesByKeyword from './components/MoreMoviesByKeyword';
 import Approved from './components/Approved';
 import FavoritesMovies from './components/FavoritesMovies';
 import UserAccount from './components/UserAccount';
+import { useDispatch, useSelector } from 'react-redux';
+import {addUser} from './features/userInfoSlice'
+
+interface UserInfo{
+  id: string,
+  username: string
+}
 
 function App() {
   const [token, setToken] = useState('')
   const [session, setSession] = useState('')
-  const [userInfo, setUserInfo] = useState('')
+  const [userInfo, setUserInfo] = useState<UserInfo>()
+  const dispatch = useDispatch()
+  
 
   const createAuthorizedSession = (id: string) => {
     setSession(id)
@@ -44,6 +53,12 @@ function App() {
       })
     }
   },[session])
+
+  useEffect( () => {
+    dispatch(addUser({id: userInfo?.id, name: userInfo?.username}))
+  }, [userInfo])
+
+  
 
   return (
     <div>
