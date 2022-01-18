@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getMovieDetails } from '../api/api'
-import MovieInfo from './MovieInfo'
+// import MovieInfo from './MovieInfo'
+
 import CastCreditDetails from './CastCreditDetails'
 import MovieReviews from './MovieReviews'
 import MovieRecomendations from './MovieRecomendations'
@@ -9,6 +10,8 @@ import MovieSocials from './MovieSocials'
 import MovieKeywords from './MovieKeywords'
 import './MovieDetails.css'
 import useDocumentTitle from './useTitle'
+
+import loader from './../assets/loader.gif'
 
 export interface MovieDetailsTypes {
     backdrop_path: string | null,
@@ -38,6 +41,7 @@ function numberWithCommas(x:number | undefined) {
 const MovieDetails = (props: any) => {
     const {id}: any = useParams()
     const [movieDetails, setMovieDetails]= useState<MovieDetailsTypes>()
+    const MovieInfo = React.lazy(() => import('./MovieInfo'))
 
     useEffect( () => {
         getMovieDetails(id, setMovieDetails);
@@ -56,7 +60,9 @@ const MovieDetails = (props: any) => {
                 </ul>
             </div>
             <div className="w-full h-[800px] relative">
-                <MovieInfo movieDetails={movieDetails} setMovieDetails={setMovieDetails} session={props.session} userInfo={props.userInfo}/>
+                <Suspense fallback={<div className="bg-white"><img src={loader} alt="" /></div>}>
+                    <MovieInfo movieDetails={movieDetails} setMovieDetails={setMovieDetails} session={props.session} userInfo={props.userInfo}/>
+                </Suspense>
             </div>
             <div className="w-[95%] m-auto md:w-[80%] lg:w-[70%] pt-[30px] grid grid-cols-4">
                 <div className="col-span-3">
