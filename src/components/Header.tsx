@@ -7,38 +7,24 @@ import menu from './../assets/menu.png'
 import './Header.css'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
-
-interface accountTypes {
-    username: string
-}
+import { useSelector } from 'react-redux'
 
 const Header = (props:any) => {
     const [toggleMenu, setToggleMenu] = useState<boolean>(false);
-    const [account, setAccount]: any = useState('')
+    
+    // unknown
+    const userInfo: any = useSelector<any>(state => state.userInfo)
+    // unknown
+
     const navigate = useNavigate()
 
     const handleMenu = () => {
         setToggleMenu(!toggleMenu)
     }
 
-    const getAccountDetails = async () => {
-        await axios.get(`https://api.themoviedb.org/3/account?api_key=1e5bf08e3e7de0739102ef8a9c371945&session_id=${props.session}`)
-        .then(({data}) => {
-           setAccount(data)
-           console.log(data)
-        })
-    }
-
     const handleNavigate = () => {
-        navigate(`/account/${account.id}`)
+        navigate(`/account/${userInfo.id}`)
     }
-
-    useEffect( () => {
-        if(props.session) {
-            getAccountDetails()
-        }
-    }, [props.session])
-    
 
     return (
         <header className="bg-[#032541] w-full h-[54px] flex relative lg:h-[64px]">
@@ -103,7 +89,7 @@ const Header = (props:any) => {
                             </li>
                             {!props.session ? <li>
                                 <a href={`https://www.themoviedb.org/authenticate/${props.token}?redirect_to=http://localhost:3000/approved`}> <img src={user} alt="" className="w-[32px] h-[32px]" /> </a>
-                            </li> : <span className="text-white" onClick={handleNavigate}>{account.username}</span>}
+                            </li> : <span className="text-white" onClick={handleNavigate}>{userInfo.name}</span>}
                             <li>
                                 <a href="#sdaa"> <img src={search} alt="" className="w-[32px] h-[32px]" /> </a>
                             </li>

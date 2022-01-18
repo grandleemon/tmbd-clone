@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface UserState {
-    id: string,
-    name: string
+    id: string | null,
+    name: string | null
 }
 
 const initialState: UserState = {
-    id: '',
-    name: ''
+    id: null,
+    name: null
 }
 
 export const userInfoSlice = createSlice({
@@ -15,7 +15,7 @@ export const userInfoSlice = createSlice({
     initialState,
     reducers: {
         addUser: (state, action) => {
-            const {id, name}: any = action.payload
+            const {id, name}: UserState = action.payload
             state.id = id
             state.name = name
         }

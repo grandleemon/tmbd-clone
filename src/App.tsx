@@ -14,7 +14,7 @@ import MoreMoviesByKeyword from './components/MoreMoviesByKeyword';
 import Approved from './components/Approved';
 import FavoritesMovies from './components/FavoritesMovies';
 import UserAccount from './components/UserAccount';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {addUser} from './features/userInfoSlice'
 
 interface UserInfo{
