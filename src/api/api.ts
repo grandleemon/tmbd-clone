@@ -53,4 +53,12 @@ export function getRequestToken(setToken: any){
         .then(({data}) => {
             setToken(data.request_token)
         }).catch(console.error)
-  }
+}
+
+export function createNewSession(token: string, setSessionId: any){
+    return axios.post(`https://api.themoviedb.org/3/authentication/session/new?api_key=${process.env.REACT_APP_API_KEY}`, {request_token: token})
+        .then(({data}) => {
+            debugger
+            setSessionId(data.session_id);
+        }).catch(console.error)
+}

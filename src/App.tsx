@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Route, Routes, useNavigate} from 'react-router-dom'
+import {Navigate, Route, Routes, useNavigate} from 'react-router-dom'
 
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
@@ -60,7 +60,8 @@ function App() {
         <Route path="/movie/:id-:title" element={<MovieDetails session={session} userInfo={userInfo} />}/>
         <Route path="/keyword/:id-:name" element={<MoreMoviesByKeyword />}/>
         <Route path="/approved" element={<Approved createAuthorizedSession={createAuthorizedSession}/>}/>
-        <Route path="/account/:id" element={<UserAccount />}/>
+        {userInfo?.id !== null ? <Route path="/account/:id" element={<UserAccount />}/> : <Route path="*" element={<Navigate to="/home" />}/>}
+        
         <Route path="/account/:id/favorites" element={<FavoritesMovies session={session}/>}/>
       </Routes>
       <Footer />
