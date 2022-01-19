@@ -12,6 +12,7 @@ import './MovieDetails.css'
 import useDocumentTitle from './useTitle'
 
 import loader from './../assets/loader.gif'
+import { useSelector } from 'react-redux'
 
 export interface MovieDetailsTypes {
     backdrop_path: string | null,
@@ -42,6 +43,7 @@ const MovieDetails = (props: any) => {
     const {id}: any = useParams()
     const [movieDetails, setMovieDetails]= useState<MovieDetailsTypes>()
     const MovieInfo = React.lazy(() => import('./MovieInfo'))
+    
 
     useEffect( () => {
         getMovieDetails(id, setMovieDetails);
@@ -61,7 +63,7 @@ const MovieDetails = (props: any) => {
             </div>
             <div className="w-full h-[800px] relative">
                 <Suspense fallback={<div className="bg-white"><img src={loader} alt="" /></div>}>
-                    <MovieInfo movieDetails={movieDetails} setMovieDetails={setMovieDetails} session={props.session} userInfo={props.userInfo}/>
+                    <MovieInfo movieDetails={movieDetails} setMovieDetails={setMovieDetails} session={props.session}/>
                 </Suspense>
             </div>
             <div className="w-[95%] m-auto md:w-[80%] lg:w-[70%] pt-[30px] grid grid-cols-4">

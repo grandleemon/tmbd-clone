@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 
 const Approved = (props: any) => {
-    const params = useParams()
     const [searchParams, setSearchParams] = useSearchParams()
     const token = searchParams.get('request_token')
     const [sessionId, setSessionId] = useState('')
@@ -11,7 +10,7 @@ const Approved = (props: any) => {
     useEffect( () => {
         async function createNewSession(){
             try {
-                const res = await axios.post(`https://api.themoviedb.org/3/authentication/session/new?api_key=1e5bf08e3e7de0739102ef8a9c371945`, {request_token: token})
+                const res = await axios.post(`https://api.themoviedb.org/3/authentication/session/new?api_key=${process.env.REACT_APP_API_KEY}`, {request_token: token})
                 .then(response => {
                     setSessionId(response.data.session_id);
                 } )
@@ -27,9 +26,8 @@ const Approved = (props: any) => {
     },[sessionId])
 
     return (
-        <div>
-            your account is approved now
-           {searchParams.get('request_token')}
+        <div className="w-[95%] m-auto md:w-[80%] lg:w-[70%] flex justify-center pt-[50px]">
+            <div className="mb-[35%] font-bold ">Your account is approved now</div> 
         </div>
     )
 }

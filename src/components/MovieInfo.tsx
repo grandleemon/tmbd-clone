@@ -1,15 +1,17 @@
 import axios from 'axios';
 import moment from 'moment';
 import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getMovieDetails } from '../api/api';
 import blank from './../assets/blank-icon.png'
 import heart from './../assets/heart.png'
 import CrewCreditDetails from './CrewCreditDetails';
 
-const MovieInfo = ({movieDetails, session, userInfo}:any) => {
+const MovieInfo = ({movieDetails, session}:any) => {
     const basicImageUrl = "https://image.tmdb.org/t/p/original/"
     const {id}: any = useParams()
+    const userInfo: any = useSelector<any>(state => state.userInfo)
 
     const calcTime = (time: number | undefined) => {
         if(time){
@@ -21,7 +23,7 @@ const MovieInfo = ({movieDetails, session, userInfo}:any) => {
     }
 
     const addToFavorite = async () => {
-        if(session){
+        if(userInfo.id !== null){
             await axios.post(`https://api.themoviedb.org/3/account/${userInfo.id}/favorite?api_key=1e5bf08e3e7de0739102ef8a9c371945&session_id=${session}`, {media_type: "movie", media_id: id, favorite: "true"})
             .then(response => {
                 console.log(response)

@@ -16,6 +16,7 @@ import FavoritesMovies from './components/FavoritesMovies';
 import UserAccount from './components/UserAccount';
 import { useDispatch } from 'react-redux';
 import {addUser} from './features/userInfoSlice'
+import { getRequestToken } from './api/api';
 
 interface UserInfo{
   id: string,
@@ -28,21 +29,12 @@ function App() {
   const [userInfo, setUserInfo] = useState<UserInfo>()
   const dispatch = useDispatch()
   
-
   const createAuthorizedSession = (id: string) => {
     setSession(id)
   }
 
   useEffect( () => {
-    async function getRequestToken(){
-      try { 
-          const res = await axios.get(`https://api.themoviedb.org/3/authentication/token/new?api_key=1e5bf08e3e7de0739102ef8a9c371945`)
-          setToken(res.data.request_token)
-      } catch (error) {
-          console.error(error)
-      }
-    }
-    getRequestToken()
+    getRequestToken(setToken)
   },[])
 
   useEffect( () => {
@@ -58,12 +50,10 @@ function App() {
     dispatch(addUser({id: userInfo?.id, name: userInfo?.username}))
   }, [userInfo])
 
-  
-
   return (
     <div>
       <ScrollToTop />
-      <Header token={token} session={session}/> 
+      <Header token={token} session={session} setToken={setToken}/> 
       <Routes>
         <Route path="/" element={<Home />}/>
         <Route path="/movie" element={<PopularCategory/>}/>

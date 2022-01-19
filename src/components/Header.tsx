@@ -7,10 +7,13 @@ import menu from './../assets/menu.png'
 import './Header.css'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { getRequestToken } from '../api/api'
+import { addUser } from '../features/userInfoSlice'
 
 const Header = (props:any) => {
     const [toggleMenu, setToggleMenu] = useState<boolean>(false);
+    const dispatch = useDispatch()
     
     // unknown
     const userInfo: any = useSelector<any>(state => state.userInfo)
@@ -18,12 +21,20 @@ const Header = (props:any) => {
 
     const navigate = useNavigate()
 
+    useEffect( () => {
+        if(!props.session){
+            getRequestToken(props.setToken)
+        }
+    }, [props.session])
+
     const handleMenu = () => {
         setToggleMenu(!toggleMenu)
     }
 
-    const handleNavigate = () => {
-        navigate(`/account/${userInfo.id}`)
+    const handleDelete = async () => {
+        if(props.session) 
+            await axios.delete(`${process.env.REACT_APP_API_URL}/authentication/session?api_key=${process.env.REACT_APP_API_KEY}`, { data: {session_id: props.session}})
+            dispatch(addUser({id: null, name: null}))
     }
 
     return (
@@ -87,9 +98,21 @@ const Header = (props:any) => {
                             <li>
                                 <a href="#"> <img src={notification} alt="" className="w-[24px] h-[24px] cur"/> </a>
                             </li>
-                            {!props.session ? <li>
+                            {userInfo.id == null ? <li>
                                 <a href={`https://www.themoviedb.org/authenticate/${props.token}?redirect_to=http://localhost:3000/approved`}> <img src={user} alt="" className="w-[32px] h-[32px]" /> </a>
-                            </li> : <span className="text-white" onClick={handleNavigate}>{userInfo.name}</span>}
+                            </li> : <span className="text-white relative account-menu-trigger p-[15px] cursor-pointer hover:underline">
+                                {userInfo.name}
+                                <div className="account-menu bg-white text-black z-[222] font-bold border border-grey rounded-md">
+                                    <ul className="flex flex-col gap-[10px]">
+                                        <li>
+                                            <Link to={`/account/${userInfo.id}/favorites`} className="hover:bg-gray-300 block px-[20px] py-[3px] rounded-t-md">Favorites</Link>
+                                        </li>
+                                        <li>
+                                            <span className="hover:bg-gray-300 block px-[20px] py-[3px]" onClick={handleDelete}>Log Out</span>
+                                        </li>
+                                    </ul>
+                                    </div>
+                                </span>}
                             <li>
                                 <a href="#sdaa"> <img src={search} alt="" className="w-[32px] h-[32px]" /> </a>
                             </li>

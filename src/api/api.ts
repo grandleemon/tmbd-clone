@@ -42,8 +42,15 @@ export function getSocialsIds(id: number, setSocials: any){
 }
 
 export function getMovieKeywords(id: number, setMovieKeywords: any){
-        return axios.get(`${process.env.REACT_APP_API_URL}/movie/${id}/keywords?api_key=${process.env.REACT_APP_API_KEY}`)
+    return axios.get(`${process.env.REACT_APP_API_URL}/movie/${id}/keywords?api_key=${process.env.REACT_APP_API_KEY}`)
         .then((response) => {
             setMovieKeywords(response.data.keywords)
         }).catch(console.error)
 }
+
+export function getRequestToken(setToken: any){
+    return axios.get(`${process.env.REACT_APP_API_URL}/authentication/token/new?api_key=${process.env.REACT_APP_API_KEY}`)
+        .then(({data}) => {
+            setToken(data.request_token)
+        }).catch(console.error)
+  }

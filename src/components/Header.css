@@ -12,7 +12,7 @@
     display: none;
 }
 
-.tv-shows-menu, .movies-menu, .people-menu, .more-menu{
+.tv-shows-menu, .movies-menu, .people-menu, .more-menu, .account-menu{
     position: absolute;
     display: none;
 }
@@ -30,5 +30,9 @@
 }
 
 .trigger_more-menu:hover .more-menu{
+    display: block;
+}
+
+.account-menu-trigger:hover .account-menu{
     display: block;
 }

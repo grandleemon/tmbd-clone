@@ -49,12 +49,6 @@ const Home = (props: any) => {
             <div className="w-[95%] m-auto px-[10px] md:w-[80%] lg:w-[65%]">
                 <div className="flex items-center">
                     <h2 className="font-bold text-[1.5em]">What's Popular</h2>
-                    <div className="border border-[#032541] rounded-full ml-[40px] hidden md:block">
-                        <button className="font-medium px-[20px] py-[4px] hover:bg-[#032541] rounded-full hover:text-[#1ed5a9] duration-300">Streaming</button>
-                        <button className="font-medium px-[20px] py-[4px] hover:bg-[#032541] rounded-full hover:text-[#1ed5a9] duration-300">On TV</button>
-                        <button className="font-medium px-[20px] py-[4px] hover:bg-[#032541] rounded-full hover:text-[#1ed5a9] duration-300">For Rent</button>
-                        <button className="font-medium px-[20px] py-[4px] hover:bg-[#032541] rounded-full hover:text-[#1ed5a9] duration-300">In Theatres</button>
-                    </div>
                 </div>
                 {isLoading ? <div className="flex overflow-x-scroll gap-x-[20px] mt-[20px]">
                     {movies.map((movie: {title: string, poster_path: string, vote_average: number, release_date: string, id: number}) => (
