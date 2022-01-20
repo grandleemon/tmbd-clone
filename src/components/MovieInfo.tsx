@@ -23,7 +23,7 @@ const MovieInfo = ({movieDetails, session}:any) => {
     }
 
     const addToFavorite = async () => {
-        if(userInfo.id !== null){
+        if(session){
             await axios.post(`https://api.themoviedb.org/3/account/${userInfo.id}/favorite?api_key=1e5bf08e3e7de0739102ef8a9c371945&session_id=${session}`, {media_type: "movie", media_id: id, favorite: "true"})
             .then(response => {
                 console.log(response)

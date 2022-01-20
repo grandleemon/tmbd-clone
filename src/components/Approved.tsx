@@ -9,7 +9,7 @@ const Approved = (props: any) => {
     const [sessionId, setSessionId] = useState('')
 
     useEffect( () => {
-        createNewSession(token, setSessionId);
+        createNewSession(token, setSessionId)
     },[])
 
     useEffect( () => {
@@ -18,7 +18,7 @@ const Approved = (props: any) => {
 
     return (
         <div className="w-[95%] m-auto md:w-[80%] lg:w-[70%] flex justify-center pt-[50px]">
-            <div className="mb-[35%] font-bold ">Your account is approved now</div> 
+            <div className="mb-[500px] font-bold ">Your account is approved now</div> 
         </div>
     )
 }
