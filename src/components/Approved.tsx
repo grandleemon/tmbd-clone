@@ -13,7 +13,7 @@ const Approved = (props: any) => {
     },[])
 
     useEffect( () => {
-        if(sessionId) props.createAuthorizedSession(sessionId)
+        props.createAuthorizedSession(sessionId)
     },[sessionId])
 
     return (

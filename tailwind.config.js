@@ -7,6 +7,8 @@ module.exports = {
       screens: {
         'mobile': {'raw': '(max-width: 480px)'},
         'tablet': {'raw': '(min-width: 481px) and (max-width: 768px)'},
+        'smallpc': {'raw': '(min-width: 769px) and (max-width: 1024px)'},
+        'mdpc': {'raw': '(min-width: 1025px) and (max-width: 1800px)'},
       }
     },
   },

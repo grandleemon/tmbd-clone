@@ -29,12 +29,12 @@ const MoreMoviesByKeyword = () => {
             <div className="w-[95%] m-auto md:w-[80%] lg:w-[70%]">
                 <div className="flex flex-col gap-y-[30px] mt-[30px]">
                 {moviesByKeyword?.map((movie: {title: string, poster_path: string, release_date: string, overview: string, id: number}) => (
-                    <div className="w-full min-h-[141px] border shadow-lg cursor-pointer grid grid-cols-12 gap-x-[10px] rounded-md hover:translate-y-[-15px] duration-300" onClick={() => handleNavigate(movie.id, movie.title)}>
-                        <div className="w-[94px] h-[141xp] col-span-1">
-                            <img className="w-[94px] h-[141xp] rounded-md" src={basicImageUrl + movie?.poster_path} alt="poster-img" />
+                    <div className="w-full min-h-[141px] border shadow-lg cursor-pointer grid grid-cols-12 gap-x-[10px] rounded-l-md hover:translate-y-[-15px] duration-300 mobile:grid-cols-1 mobile:gap-x-0" onClick={() => handleNavigate(movie.id, movie.title)}>
+                        <div className="w-full h-full col-span-1 justify-center mobile:p-[15px] tablet:col-span-4 smallpc:col-span-3 mdpc:col-span-2">
+                            <img className="w-full h-full rounded-l-md mobile:rounded-md" src={basicImageUrl + movie?.poster_path} alt="poster-img" />
                         </div>
-                        <div className="p-[15px] col-span-11">
-                            <div className="pt-[15px] font-bold text-[1.3em]">
+                        <div className="p-[15px] col-span-11 tablet:col-span-8 smallpc:col-span-9 mdpc:col-span-10">
+                            <div className="pt-[15px] font-bold text-[1.3em] mobile:pt-[0]">
                                 <p>{movie.title}</p>
                             </div>
                             <div>
