@@ -43,16 +43,16 @@ const MovieInfo = ({movieDetails, session}:any) => {
 
     return (
         <>
-            <img src={basicImageUrl + movieDetails?.backdrop_path} alt="backdrop-image" className="w-full h-[800px] object-cover object-top mobile:h-[1300px]" /> 
-            <div className={`absolute ${movieDetails?.backdrop_path ? "bg-gradient-to-r from-black" : "bg-[#a7a2a2]"} w-full h-[800px] top-0 mobile:h-[1300px]`}>
-                    <div className="w-[95%] m-auto md:w-[80%] lg:w-[70%] flex pt-[40px] gap-[50px] tablet:gap-[20px] mobile:flex-col">
-                        {movieDetails?.poster_path ? <div className="w-[400px] h-[500px] mobile:w-[200px] mobile:h-[300px]">
-                            <img src={basicImageUrl + movieDetails?.poster_path} alt="poster" className="w-[400px] h-[500px] object-cover mobile:w-[200px] mobile:h-[300px]"/>
+            <img src={basicImageUrl + movieDetails?.backdrop_path} alt="backdrop-image" className="w-full h-[800px] object-cover object-top mobile:h-[1300px] tablet:h-[1300px]" /> 
+            <div className={`absolute ${movieDetails?.backdrop_path ? "bg-gradient-to-r from-black" : "bg-[#a7a2a2]"} w-full h-[800px] top-0 mobile:h-[1300px] tablet:h-[1300px]`}>
+                    <div className="w-[95%] m-auto md:w-[90%] lg:w-[90%] xl:w-[70%] 2xl:w-[70%] flex pt-[40px] gap-[50px] tablet:gap-[20px] mobile:flex-col ">
+                        {movieDetails?.poster_path ? <div className="w-[400px] h-[500px] mobile:w-[200px] mobile:h-[300px] tablet:w-[200px] tablet:h-[300px]">
+                            <img src={basicImageUrl + movieDetails?.poster_path} alt="poster" className="w-[400px] h-[500px] object-cover mobile:w-[200px] mobile:h-[300px] tablet:w-[200px] tablet:h-[300px] smallpc:w-[500px]"/>
                         </div> : <div className="w-[400px] h-[500px] bg-[#c7c2c2d6] flex items-center justify-center rounded-lg">
                                     <img src={blank} alt="" className="w-[100px] h-[100px] "/>
                             </div>}
                         <div className="w-[70%] mobile:w-[100%]">
-                            <div className="hidden text-white sm:block">
+                            <div className="hidden text-white smallpc:block mdpc:block otherpc:block">
                                 <span className="font-bold text-[2.2rem]">{movieDetails?.title}</span>
                                 <span className="opacity-80 text-[2.2rem]"> ({moment(movieDetails?.release_date).format('YYYY')})</span> <br />
                                 <div className="px-[4px] border opacity-60 inline w-[50px] tablet:text-[11px] smallpc:text-[12px]">{movieDetails?.adult ? "PG-18" : "PG-13"}</div>
@@ -81,7 +81,7 @@ const MovieInfo = ({movieDetails, session}:any) => {
                                     <CrewCreditDetails id={id} movieDetails={movieDetails}/>
                                 </div>
                             </div>
-                            <div className="hidden text-white mobile:block">
+                            <div className="hidden text-white mobile:block tablet:block">
                                 <span className="font-bold text-[2.2rem] mobile:text-[1.8rem]">{movieDetails?.title}</span>
                                 <span className="opacity-80 text-[2.2rem] mobile:text-[1.8rem]"> ({moment(movieDetails?.release_date).format('YYYY')})</span> <br />
                                 <div className="px-[4px] border opacity-60 inline w-[50px]">{movieDetails?.adult ? "PG-18" : "PG-13"}</div> <br />

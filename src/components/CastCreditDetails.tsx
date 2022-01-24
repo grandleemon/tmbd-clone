@@ -10,7 +10,7 @@ const CastCreditDetails = ({id, movieDetails}: any) => {
         getCastCreditDetails(id, setCastDetails)
     }, [movieDetails])
     return (
-        <div className="mobile:mt-[500px]">
+        <div className="mobile:mt-[500px] tablet:mt-[500px]">
             <p className="text-[1.5em] font-bold">Top Billed Cast</p>
                 <div className="flex gap-x-[20px] mt-[20px] overflow-x-scroll pb-[30px]">
                     {castDetails?.slice(0, 9).map( (cast: {name: string, profile_path: string, character: string}) => (

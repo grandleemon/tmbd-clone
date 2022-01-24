@@ -29,7 +29,7 @@ const MovieSocials = ({id, movieDetails}: any) => {
           <img
             src={facebook}
             alt="fb-icon"
-            className="w-[32px] h-[32px] inline"
+            className="w-[32px] h-[32px] inline smallpc:w-[24px] smallpc:h-[24px]"
           />
           <span className="facebook-label w-[200px]">Visit Facebook</span>
         </a>
@@ -43,7 +43,7 @@ const MovieSocials = ({id, movieDetails}: any) => {
           <img
             src={twitter}
             alt="fb-icon"
-            className="w-[32px] h-[32px] inline"
+            className="w-[32px] h-[32px] inline smallpc:w-[24px] smallpc:h-[24px]"
           />
           <span className="twitter-label w-[200px]">Visit Twitter</span>
         </a>
@@ -57,7 +57,7 @@ const MovieSocials = ({id, movieDetails}: any) => {
           <img
             src={instagram}
             alt="fb-icon"
-            className="w-[32px] h-[32px] inline"
+            className="w-[32px] h-[32px] inline smallpc:w-[24px] smallpc:h-[24px]"
           />
           <span className="instagram-label w-[200px]">Visit Instagram</span>
         </a>
@@ -71,7 +71,7 @@ const MovieSocials = ({id, movieDetails}: any) => {
           <img
             src={homepage}
             alt="fb-icon"
-            className="w-[32px] h-[32px] inline"
+            className="w-[32px] h-[32px] inline smallpc:w-[24px] smallpc:h-[24px]"
           />
           <span className="homepage-label w-[200px]">Visit Homepage</span>
         </a>

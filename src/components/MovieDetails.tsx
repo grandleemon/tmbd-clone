@@ -66,7 +66,7 @@ const MovieDetails = (props: any) => {
                     <MovieInfo movieDetails={movieDetails} setMovieDetails={setMovieDetails} session={props.session}/>
                 </Suspense>
             </div>
-            <div className="w-[95%] m-auto md:w-[80%] lg:w-[70%] pt-[30px] grid grid-cols-4 mobile:flex mobile:flex-col">
+            <div className="w-[95%] m-auto md:w-[80%] lg:w-[70%] pt-[30px] grid grid-cols-4 mobile:flex mobile:flex-col tablet:flex tablet:flex-col">
                 <div className="col-span-3">
                     <CastCreditDetails id={id} movieDetails={movieDetails} />
                     <p className="font-bold text-[1.5em] mt-[20px]">Full Cast & Crew</p>
