@@ -54,7 +54,7 @@ const MovieDetails = (props: any) => {
     return (
         <div>
             <div className="w-[95%] m-auto md:w-[80%] lg:w-[70%]">
-                <ul className="flex justify-center gap-x-[50px] items-center h-[46px]">
+                <ul className="flex justify-center gap-x-[50px] items-center h-[46px] mobile:hidden">
                     <li><span>Overview</span></li>
                     <li><span>Media</span></li>
                     <li><span>Fandom</span></li>
@@ -66,7 +66,7 @@ const MovieDetails = (props: any) => {
                     <MovieInfo movieDetails={movieDetails} setMovieDetails={setMovieDetails} session={props.session}/>
                 </Suspense>
             </div>
-            <div className="w-[95%] m-auto md:w-[80%] lg:w-[70%] pt-[30px] grid grid-cols-4">
+            <div className="w-[95%] m-auto md:w-[80%] lg:w-[70%] pt-[30px] grid grid-cols-4 mobile:flex mobile:flex-col">
                 <div className="col-span-3">
                     <CastCreditDetails id={id} movieDetails={movieDetails} />
                     <p className="font-bold text-[1.5em] mt-[20px]">Full Cast & Crew</p>
@@ -91,7 +91,7 @@ const MovieDetails = (props: any) => {
                         </div>
                     </div>
                 </div>
-                <div className="pl-[25px]">
+                <div className="pl-[25px] mobile:mt-[20px] mobile:pl-[0]">
                     <div className="flex gap-x-[20px]">     
                         <MovieSocials id={id} movieDetails={movieDetails}/>
                     </div>

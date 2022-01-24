@@ -31,7 +31,7 @@ const FavoritesMovies = ({session}: any) => {
         <div className="w-[95%] m-auto md:w-[80%] lg:w-[70%] ">
             {userInfo?.id !== null ? <div>
                 <h2 className="font-bold text-[1.5em] my-[30px]">Favorite Movies</h2>
-                <div className="flex gap-[30px] flex-wrap">
+                <div className="flex gap-[30px] flex-wrap mobile:justify-center tablet:justify-center">
                 {favoriteMovies?.map((movie: {title: string, poster_path: string, release_date: string, id: number, vote_average: number}) => (
                     <MovieCard id={movie.id} key={movie.id} setVoteClass={setVoteClass} title={movie.title} poster_path={movie.poster_path} release_date={movie.release_date} vote_average={movie.vote_average} basicImageUrl={basicImageUrl}/>
                 ))}

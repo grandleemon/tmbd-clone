@@ -34,16 +34,16 @@ const MovieReviews = ({id, movieDetails}: any) => {
                 <div className="w-[64px] h-[64px] rounded-full"> no image </div>
               )}
             </div>
-            <div className="ml-[20px] col-span-11">
-              <span className="font-bold text-[1.2em]">
+            <div className="ml-[20px] col-span-11 mobile:col-start-1 mobile:ml-[0]">
+              <div className="font-bold text-[1.2em] ml-[20px] mobile:hidden">
                 A review by {review?.author}
-              </span>
+              </div>
               <p className="text-[14px] opacity-80">
                 Written by{" "}
                 <span className="font-semibold">{review?.author}</span> on{" "}
                 {moment(review?.created_at).format("MMM D, YYYY")}
               </p>
-              <div className="mt-[30px]">
+              <div className="mt-[30px] mobile:mt-[10px]">
                 {review?.content?.length >= 1000
                   ? review?.content.substring(0, 1000) + "..." + "read THE REST"
                   : review?.content}
