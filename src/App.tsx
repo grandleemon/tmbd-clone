@@ -16,6 +16,7 @@ import FavoritesMovies from './components/FavoriteMoviesPage/FavoritesMovies';
 import UserAccount from './components/UserAccount';
 import { useDispatch } from 'react-redux';
 import {addUser} from './features/userInfo/userInfoSlice'
+import withUserToken from './decorators/withUserToken';
 // import { getRequestToken } from './api/api';
 
 interface UserInfo{
@@ -71,4 +72,4 @@ function App() {
   
 }
 
-export default App;
+export default withUserToken(App);
