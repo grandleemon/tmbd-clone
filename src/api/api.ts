@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ApiResponse } from "../models/api";
 
 export function getMovieDetails(id: number, setMovieDetails: any){
     return axios.get(`${process.env.REACT_APP_API_URL}/movie/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`)
@@ -48,12 +49,11 @@ export function getMovieKeywords(id: number, setMovieKeywords: any){
         }).catch(console.error)
 }
 
-export function getRequestToken(setToken: any){
-    return axios.get(`${process.env.REACT_APP_API_URL}/authentication/token/new?api_key=${process.env.REACT_APP_API_KEY}`)
-        .then(({data}) => {
-            setToken(data.request_token)
-        }).catch(console.error)
-}
+// export const getRequestToken = (): Promise<ApiResponse<string>> => {
+//     return axios.get(`${process.env.REACT_APP_API_URL}/authentication/token/new?api_key=${process.env.REACT_APP_API_KEY}`)
+//         .then(({data}) => ({data: data.request_token}))
+//         .catch(console.error)
+// }
 
 export function createNewSession(token: string, setSessionId: any){
     return axios.post(`${process.env.REACT_APP_API_URL}/authentication/session/new?api_key=${process.env.REACT_APP_API_KEY}`, {request_token: token})

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {FC, useEffect, useState} from 'react'
 import logo from './../assets/logo.svg'
 import notification from './../assets/bell.png'
 import user from './../assets/user.svg'
@@ -8,32 +8,60 @@ import './Header.css'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
-import { getRequestToken } from '../api/api'
-import { addUser } from '../features/userInfoSlice'
+// import { getRequestToken } from '../api/api'
+import { addUser } from '../features/userInfo/userInfoSlice'
+import { userInfoSelector } from '../features/userInfo'
 
-const Header = (props:any) => {
+type IProps = {
+    session: string,
+    setToken: (token: string) => void
+}
+
+type SectionProps = {
+    title: string
+}
+
+const ListSection: FC<SectionProps> = ({ children, title }) => (
+    <li className="trigger_movies">
+    <span className="p-[7px] hover:font-bold relative cursor-pointer">{title}</span>
+        <div className="movies-menu text-[black] z-[1] bg-white w-[180px] border border-grey rounded-md">
+            <ul className="flex flex-col py-[8px]">
+                {children}
+            </ul>
+        </div>
+    </li>
+)
+
+const SectionLink: FC = ({ children }) => (
+    <li><a href="#" className="hover:bg-gray-300 block px-[20px] py-[3px]">{children}</a></li>
+)
+
+const Header: FC<IProps> = ({ session, setToken }) => {
+    
     const [toggleMenu, setToggleMenu] = useState<boolean>(false);
     const dispatch = useDispatch()
-    
-    // unknown
-    const userInfo: any = useSelector<any>(state => state.userInfo)
-    // unknown
 
-    const navigate = useNavigate()
+    const userInfo = useSelector(userInfoSelector)
 
-    useEffect( () => {
-        if(!props.session){
-            getRequestToken(props.setToken)
-        }
-    }, [props.session])
+    // useEffect( () => {
+    //     if(!session){
+    //         getRequestToken().then(({data, error}) => {
+    //             if (data) {
+    //                 setToken(data)
+    //             } else if (error) {
+    //                 console.log(error)
+    //             }
+    //         });
+    //     }
+    // }, [session])
 
     const handleMenu = () => {
         setToggleMenu(!toggleMenu)
     }
 
     const handleDelete = async () => {
-        if(props.session) 
-            await axios.delete(`${process.env.REACT_APP_API_URL}/authentication/session?api_key=${process.env.REACT_APP_API_KEY}`, { data: {session_id: props.session}})
+        if(session) 
+            await axios.delete(`${process.env.REACT_APP_API_URL}/authentication/session?api_key=${process.env.REACT_APP_API_KEY}`, { data: {session_id: session}})
             dispatch(addUser({id: null, name: null}))
     }
 
@@ -49,47 +77,27 @@ const Header = (props:any) => {
                         </div>
                         <div className="ml-[25px] hidden sm:block">
                             <ul className="text-white text-[15px] flex gap-[20px] lg:text-[16px]">
-                                <li className="trigger_movies">
-                                    <span className="p-[7px] hover:font-bold relative cursor-pointer">Movies</span>
-                                    <div className="movies-menu text-[black] z-[1] bg-white w-[180px] border border-grey rounded-md">
-                                        <ul className="flex flex-col py-[8px]">
-                                            <li><Link to='/movie' className="hover:bg-gray-300 block px-[20px] py-[3px]">Popular</Link></li>
-                                            <li><a href="#" className="hover:bg-gray-300 block px-[20px] py-[3px]">Now Playing</a></li>
-                                            <li><a href="#" className="hover:bg-gray-300 block px-[20px] py-[3px]">Upcoming</a></li>
-                                            <li><a href="#" className="hover:bg-gray-300 block px-[20px] py-[3px]">Top Rated</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li className="trigger_tv-shows">
-                                    <a className="p-[7px] hover:font-bold relative" href="#">TV Shows</a>
-                                    <div className="tv-shows-menu text-[black] z-[1] bg-white w-[180px] border border-grey rounded-md">
-                                        <ul className="flex flex-col py-[8px]">
-                                            <li><a href="#" className="hover:bg-gray-300 block px-[20px] py-[3px]">Popular</a></li>
-                                            <li><a href="#" className="hover:bg-gray-300 block px-[20px] py-[3px]">Airing Today</a></li>
-                                            <li><a href="#" className="hover:bg-gray-300 block px-[20px] py-[3px]">On TV</a></li>
-                                            <li><a href="#" className="hover:bg-gray-300 block px-[20px] py-[3px]">Top Rated</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li className="trigger_people-menu">
-                                    <a className="p-[7px] hover:font-bold" href="#">People</a>
-                                    <div className="people-menu text-[black] z-[1] bg-white w-[180px] border border-grey rounded-md">
-                                        <ul className="flex flex-col py-[8px]">
-                                            <li><a href="#" className="hover:bg-gray-300 block px-[20px] py-[3px]">Popular People</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li className="trigger_more-menu">
-                                    <a className="p-[7px] hover:font-bold" href="#">More</a>
-                                    <div className="more-menu text-[black] z-[1] bg-white w-[180px] border border-grey rounded-md">
-                                        <ul className="flex flex-col py-[8px]">
-                                            <li><a href="#" className="hover:bg-gray-300 block px-[20px] py-[3px]">Discussions</a></li>
-                                            <li><a href="#" className="hover:bg-gray-300 block px-[20px] py-[3px]">Leaderboard</a></li>
-                                            <li><a href="#" className="hover:bg-gray-300 block px-[20px] py-[3px]">Support</a></li>
-                                            <li><a href="#" className="hover:bg-gray-300 block px-[20px] py-[3px]">API</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
+                                <ListSection title="Movies">
+                                    <li><Link to='/movie' className="hover:bg-gray-300 block px-[20px] py-[3px]">Popular</Link></li>
+                                    <SectionLink>Now Playing</SectionLink>
+                                    <SectionLink>Upcoming</SectionLink>
+                                    <SectionLink>Top Rated</SectionLink>
+                                </ListSection>
+                                <ListSection title="TV Shows">
+                                    <SectionLink>Popular</SectionLink>
+                                    <SectionLink>Airing Today</SectionLink>
+                                    <SectionLink>On TV</SectionLink>
+                                    <SectionLink>Top Rated</SectionLink>
+                                </ListSection>
+                                <ListSection title="People">
+                                    <SectionLink>Popular People</SectionLink>
+                                </ListSection>
+                                <ListSection title="More">
+                                    <SectionLink>Discussions</SectionLink>
+                                    <SectionLink>Leaderboard</SectionLink>
+                                    <SectionLink>Support</SectionLink>
+                                    <SectionLink>API</SectionLink>
+                                </ListSection>
                             </ul>
                         </div>
                     </div>
@@ -98,7 +106,7 @@ const Header = (props:any) => {
                             <li>
                                 <a href="#"> <img src={notification} alt="" className="w-[24px] h-[24px] cur"/> </a>
                             </li>
-                            {userInfo.id == null ? <li>
+                            {/* {userInfo.id == null ? <li>
                                 <a href={`https://www.themoviedb.org/authenticate/${props.token}?redirect_to=http://localhost:3000/approved`}> <img src={user} alt="" className="w-[32px] h-[32px]" /> </a>
                             </li> : <span className="text-white relative account-menu-trigger p-[15px] cursor-pointer hover:underline">
                                 {userInfo.name}
@@ -112,7 +120,7 @@ const Header = (props:any) => {
                                         </li>
                                     </ul>
                                     </div>
-                                </span>}
+                                </span>} */}
                             <li>
                                 <a href="#sdaa"> <img src={search} alt="" className="w-[32px] h-[32px]" /> </a>
                             </li>

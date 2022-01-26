@@ -15,8 +15,8 @@ import Approved from './components/Approved';
 import FavoritesMovies from './components/FavoritesMovies';
 import UserAccount from './components/UserAccount';
 import { useDispatch } from 'react-redux';
-import {addUser} from './features/userInfoSlice'
-import { getRequestToken } from './api/api';
+import {addUser} from './features/userInfo/userInfoSlice'
+// import { getRequestToken } from './api/api';
 
 interface UserInfo{
   id: string,
@@ -33,9 +33,9 @@ function App() {
     setSession(id)
   }
 
-  useEffect( () => {
-    getRequestToken(setToken)
-  },[])
+  // useEffect( () => {
+  //   getRequestToken()
+  // },[])
 
   useEffect( () => {
     if(session){
@@ -53,7 +53,7 @@ function App() {
   return (
     <div>
       <ScrollToTop />
-      <Header token={token} session={session} setToken={setToken}/> 
+      <Header session={session} setToken={setToken}/> 
       <Routes>
         <Route path="/" element={<Home />}/>
         <Route path="/movie" element={<PopularCategory/>}/>
