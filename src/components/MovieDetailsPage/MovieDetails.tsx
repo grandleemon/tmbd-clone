@@ -1,18 +1,15 @@
 import React, { Suspense, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { getMovieDetails } from '../api/api'
-// import MovieInfo from './MovieInfo'
-
-import CastCreditDetails from './CastCreditDetails'
-import MovieReviews from './MovieReviews'
-import MovieRecomendations from './MovieRecomendations'
-import MovieSocials from './MovieSocials'
-import MovieKeywords from './MovieKeywords'
+import { getMovieDetails } from '../../api/api'
+import CastCreditDetails from './MovieDetailsComponents/CastCreditDetails'
+import MovieReviews from './MovieDetailsComponents/MovieReviews'
+import MovieRecomendations from './MovieDetailsComponents/MovieRecomendations'
+import MovieSocials from './MovieDetailsComponents/MovieSocials'
+import MovieKeywords from './MovieDetailsComponents/MovieKeywords'
 import './MovieDetails.css'
-import useDocumentTitle from './useTitle'
+import useDocumentTitle from '../../utils/hooks/useTitle'
 
-import loader from './../assets/loader.gif'
-import { useSelector } from 'react-redux'
+import loader from './../../assets/loader.gif'
 
 export interface MovieDetailsTypes {
     backdrop_path: string | null,
@@ -42,7 +39,7 @@ function numberWithCommas(x:number | undefined) {
 const MovieDetails = (props: any) => {
     const {id}: any = useParams()
     const [movieDetails, setMovieDetails]= useState<MovieDetailsTypes>()
-    const MovieInfo = React.lazy(() => import('./MovieInfo'))
+    const MovieInfo = React.lazy(() => import('./MovieDetailsComponents/MovieInfo'))
     
 
     useEffect( () => {

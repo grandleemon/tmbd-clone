@@ -3,9 +3,9 @@ import moment from 'moment';
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getMovieDetails } from '../api/api';
-import blank from './../assets/blank-icon.png'
-import heart from './../assets/heart.png'
+import { getMovieDetails } from '../../../api/api';
+import blank from './../../../assets/blank-icon.png'
+import heart from './../../../assets/heart.png'
 import CrewCreditDetails from './CrewCreditDetails';
 
 const MovieInfo = ({movieDetails, session}:any) => {

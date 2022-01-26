@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom'
-import MovieCard from './MovieCard';
+import MovieCard from '../MovieCard';
 
 const FavoritesMovies = ({session}: any) => {
     const [favoriteMovies, setFavoriteMovies] = useState([])

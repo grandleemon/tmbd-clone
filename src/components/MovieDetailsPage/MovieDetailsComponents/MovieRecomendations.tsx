@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getRecomendations } from "../api/api";
-import blank from './../assets/blank-icon.png'
+import { getRecomendations } from "../../../api/api";
+import blank from './../../../assets/blank-icon.png'
 
 const MovieRecomendations = ({id, movieDetails}: any) => {
     const [recomendations, setRecomendations] = useState([])

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { getSocialsIds } from "../api/api";
-import facebook from './../assets/facebook.png'
-import twitter from './../assets/twitter.png'
-import instagram from './../assets/instagram.png'
-import homepage from './../assets/home.png'
+import { getSocialsIds } from "../../../api/api";
+import facebook from './../../../assets/facebook.png'
+import twitter from './../../../assets/twitter.png'
+import instagram from './../../../assets/instagram.png'
+import homepage from './../../../assets/home.png'
 
 interface Socials{
     imdb_id: string 

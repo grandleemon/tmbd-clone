@@ -1,7 +1,7 @@
 import axios from 'axios'
 import moment from 'moment';
 import React, {useState, useEffect} from 'react'
-import MovieCard from './MovieCard';
+import MovieCard from '../MovieCard';
 import './PopularCategory.css'
 
 const setVoteClass = (vote: number) => {

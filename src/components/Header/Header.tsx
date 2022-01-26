@@ -1,16 +1,16 @@
 import React, {FC, useEffect, useState} from 'react'
-import logo from './../assets/logo.svg'
-import notification from './../assets/bell.png'
-import user from './../assets/user.svg'
-import search from './../assets/search.svg'
-import menu from './../assets/menu.png'
+import logo from './../../assets/logo.svg'
+import notification from './../../assets/bell.png'
+import user from './../../assets/user.svg'
+import search from './../../assets/search.svg'
+import menu from './../../assets/menu.png'
 import './Header.css'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 // import { getRequestToken } from '../api/api'
-import { addUser } from '../features/userInfo/userInfoSlice'
-import { userInfoSelector } from '../features/userInfo'
+import { addUser } from '../../features/userInfo/userInfoSlice'
+import { userInfoSelector } from '../../features/userInfo'
 
 type IProps = {
     session: string,

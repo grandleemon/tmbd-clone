@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { getCastCreditDetails } from '../api/api'
-import blankUser from './../assets/blank-user-profile.png'
+import { getCastCreditDetails } from '../../../api/api'
+import blankUser from './../../../assets/blank-user-profile.png'
 
 
 const CastCreditDetails = ({id, movieDetails}: any) => {

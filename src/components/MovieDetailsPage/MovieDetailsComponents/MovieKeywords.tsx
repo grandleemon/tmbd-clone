@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getMovieKeywords } from "../api/api";
+import { getMovieKeywords } from "../../../api/api";
 
 const MovieKeywords = ({id, movieDetails}: any) => {
     const [movieKeywords, setMovieKeywords] = useState([])

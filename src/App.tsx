@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import {Navigate, Route, Routes, useNavigate} from 'react-router-dom'
 
-import Header from './components/Header';
+import Header from './components/Header/Header';
 import SearchBar from './components/SearchBar';
-import PopularCategory from './components/PopularCategory';
+import PopularCategory from './components/PopularMoviesPage/PopularCategory';
 import './App.css';
-import Home from './components/Home';
-import MovieDetails from './components/MovieDetails';
+import Home from './components/Home/Home';
+import MovieDetails from './components/MovieDetailsPage/MovieDetails';
 import ScrollToTop from './components/ScrollToTop';
-import Footer from './components/Footer';
+import Footer from './components/Footer/Footer';
 import axios from 'axios';
-import MoreMoviesByKeyword from './components/MoreMoviesByKeyword';
-import Approved from './components/Approved';
-import FavoritesMovies from './components/FavoritesMovies';
+import MoreMoviesByKeyword from './components/MoviesByKeywordPage/MoreMoviesByKeyword';
+import Approved from './components/ApprovedPage/Approved';
+import FavoritesMovies from './components/FavoriteMoviesPage/FavoritesMovies';
 import UserAccount from './components/UserAccount';
 import { useDispatch } from 'react-redux';
 import {addUser} from './features/userInfo/userInfoSlice'

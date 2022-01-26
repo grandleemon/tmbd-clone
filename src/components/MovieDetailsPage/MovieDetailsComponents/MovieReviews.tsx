@@ -1,6 +1,6 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { getReviews } from "../api/api";
+import { getReviews } from "../../../api/api";
 
 const MovieReviews = ({id, movieDetails}: any) => {
     const [reviews, setReviews] = useState([])

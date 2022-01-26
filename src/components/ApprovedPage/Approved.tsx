@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
-import { createNewSession } from '../api/api'
+import { createNewSession } from '../../api/api'
 
 const Approved = (props: any) => {
     const [searchParams, setSearchParams] = useSearchParams()
