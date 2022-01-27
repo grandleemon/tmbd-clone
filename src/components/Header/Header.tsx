@@ -8,14 +8,11 @@ import './Header.css'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
-// import { getRequestToken } from '../api/api'
 import { addUser } from '../../features/userInfo/userInfoSlice'
 import { userInfoSelector } from '../../features/userInfo'
+import { userTokenSelector } from '../../features/userToken'
 
-type IProps = {
-    session: string,
-    setToken: (token: string) => void
-}
+
 
 type SectionProps = {
     title: string
@@ -36,33 +33,22 @@ const SectionLink: FC = ({ children }) => (
     <li><a href="#" className="hover:bg-gray-300 block px-[20px] py-[3px]">{children}</a></li>
 )
 
-const Header: FC<IProps> = ({ session, setToken }) => {
+const Header: FC = () => {
     
     const [toggleMenu, setToggleMenu] = useState<boolean>(false);
     const dispatch = useDispatch()
 
     const userInfo = useSelector(userInfoSelector)
-
-    // useEffect( () => {
-    //     if(!session){
-    //         getRequestToken().then(({data, error}) => {
-    //             if (data) {
-    //                 setToken(data)
-    //             } else if (error) {
-    //                 console.log(error)
-    //             }
-    //         });
-    //     }
-    // }, [session])
+    const requestToken = useSelector(userTokenSelector)
 
     const handleMenu = () => {
         setToggleMenu(!toggleMenu)
     }
 
     const handleDelete = async () => {
-        if(session) 
-            await axios.delete(`${process.env.REACT_APP_API_URL}/authentication/session?api_key=${process.env.REACT_APP_API_KEY}`, { data: {session_id: session}})
-            dispatch(addUser({id: null, name: null}))
+        // if(session) 
+        //     await axios.delete(`${process.env.REACT_APP_API_URL}/authentication/session?api_key=${process.env.REACT_APP_API_KEY}`, { data: {session_id: session}})
+        //     dispatch(addUser({id: null, name: null}))
     }
 
     return (
@@ -106,8 +92,8 @@ const Header: FC<IProps> = ({ session, setToken }) => {
                             <li>
                                 <a href="#"> <img src={notification} alt="" className="w-[24px] h-[24px] cur"/> </a>
                             </li>
-                            {/* {userInfo.id == null ? <li>
-                                <a href={`https://www.themoviedb.org/authenticate/${props.token}?redirect_to=http://localhost:3000/approved`}> <img src={user} alt="" className="w-[32px] h-[32px]" /> </a>
+                            {userInfo.id == null ? <li>
+                                <a href={`https://www.themoviedb.org/authenticate/${requestToken.userToken}?redirect_to=http://localhost:3000/approved`}> <img src={user} alt="" className="w-[32px] h-[32px]" /> </a>
                             </li> : <span className="text-white relative account-menu-trigger p-[15px] cursor-pointer hover:underline">
                                 {userInfo.name}
                                 <div className="account-menu bg-white text-black z-[222] font-bold border border-grey rounded-md">
@@ -120,7 +106,7 @@ const Header: FC<IProps> = ({ session, setToken }) => {
                                         </li>
                                     </ul>
                                     </div>
-                                </span>} */}
+                                </span>}
                             <li>
                                 <a href="#sdaa"> <img src={search} alt="" className="w-[32px] h-[32px]" /> </a>
                             </li>

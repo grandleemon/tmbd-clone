@@ -1,12 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userInfoSlice from '../features/userInfo/userInfoSlice'
+import { userInfoSlice } from "../features/userInfo";
+import { userSessionSlice } from "../features/userSession";
 import { userTokenSlice } from "../features/userToken";
+
 
 
 const store = configureStore({
     reducer: {
         userInfo: userInfoSlice.reducer,
-        userToken: userTokenSlice.reducer
+        userToken: userTokenSlice.reducer,
+        userSession: userSessionSlice.reducer
     }
 })
 

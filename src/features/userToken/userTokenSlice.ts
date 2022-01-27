@@ -28,7 +28,6 @@ export const userTokenSlice = createSlice({
 
 export const fetchRequestToken = createAsyncThunk('userToken/fetchUserToken', async () => {
     const response = await axios.get(`${process.env.REACT_APP_API_URL}/authentication/token/new?api_key=${process.env.REACT_APP_API_KEY}`)
-    addToken({userToken: response.data.request_token})
     return response.data.request_token
 })
 
