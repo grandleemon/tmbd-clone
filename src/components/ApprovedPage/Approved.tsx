@@ -1,12 +1,9 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams, useSearchParams } from 'react-router-dom'
-import { createNewSession } from '../../api/api'
-import store from '../../app/store'
+import { useSearchParams } from 'react-router-dom'
 import { fetchUserData } from '../../features/userInfo/userInfoSlice'
 import { userSessionSelector } from '../../features/userSession'
-import { createSession, fetchUserSession } from '../../features/userSession/userSessionSlice'
+import { fetchUserSession } from '../../features/userSession/userSessionSlice'
 
 const Approved = () => {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -19,7 +16,7 @@ const Approved = () => {
     },[token])
 
     useEffect( () => {
-        if(session !== null) dispatch(fetchUserData(session.userSession))
+        if(session) dispatch(fetchUserData(session.userSession))
     }, [session])
 
     return (

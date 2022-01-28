@@ -2,11 +2,10 @@ import axios from 'axios'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { MovieDetailsTypes } from '../MovieDetailsPage/MovieDetails'
 import SearchBar from '../SearchBar'
 import loader from './../../assets/loader.gif'
 
-const Home = (props: any) => {
+const Home = () => {
     const navigate = useNavigate()
     const [movies, setMovies] = useState([])
     const [page, setPage] = useState<number>(Math.floor(Math.random() * 100))

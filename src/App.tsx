@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {Navigate, Route, Routes} from 'react-router-dom'
 import Header from './components/Header/Header';
 import PopularCategory from './components/PopularMoviesPage/PopularCategory';

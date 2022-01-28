@@ -1,6 +1,6 @@
 import axios from 'axios'
 import moment from 'moment'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
 const MoreMoviesByKeyword = () => {

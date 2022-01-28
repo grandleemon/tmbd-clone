@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { getMovieDetails } from '../../api/api'
+import { getMovieDetails } from '../../api/movieDetails/movieDetailsApi'
 import CastCreditDetails from './MovieDetailsComponents/CastCreditDetails'
 import MovieReviews from './MovieDetailsComponents/MovieReviews'
 import MovieRecomendations from './MovieDetailsComponents/MovieRecomendations'

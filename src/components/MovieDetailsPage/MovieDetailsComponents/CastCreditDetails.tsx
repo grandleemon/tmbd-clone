@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getCastCreditDetails } from '../../../api/api'
+import { getCastCreditDetails } from '../../../api/movieDetails/movieDetailsApi'
 import blankUser from './../../../assets/blank-user-profile.png'
 
 

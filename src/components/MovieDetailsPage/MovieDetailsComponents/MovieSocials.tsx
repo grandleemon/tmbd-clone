@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getSocialsIds } from "../../../api/api";
+import { getSocialsIds } from '../../../api/movieDetails/movieDetailsApi'
 import facebook from './../../../assets/facebook.png'
 import twitter from './../../../assets/twitter.png'
 import instagram from './../../../assets/instagram.png'

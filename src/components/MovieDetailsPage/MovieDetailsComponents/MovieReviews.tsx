@@ -1,6 +1,6 @@
 import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { getReviews } from "../../../api/api";
+import { useEffect, useState } from "react";
+import { getReviews } from '../../../api/movieDetails/movieDetailsApi';
 
 const MovieReviews = ({id, movieDetails}: any) => {
     const [reviews, setReviews] = useState([])
@@ -17,8 +17,8 @@ const MovieReviews = ({id, movieDetails}: any) => {
           created_at: string;
           author_details: { avatar_path: string };
         }) => (
-          <div className="border p-[20px] grid grid-cols-12 rounded-md shadow-lg">
-            <div className="w-[64px] h-[64px] col-span-1">
+          <div className="border p-[20px]  rounded-md shadow-lg">
+            <div className="flex">
               {review?.author_details?.avatar_path ? (
                 <img
                   src={
@@ -33,16 +33,18 @@ const MovieReviews = ({id, movieDetails}: any) => {
               ) : (
                 <div className="w-[64px] h-[64px] rounded-full"> no image </div>
               )}
-            </div>
-            <div className="ml-[20px] col-span-11 mobile:col-start-1 mobile:ml-[0]">
+              <div>
               <div className="font-bold text-[1.2em] ml-[20px] mobile:hidden">
                 A review by {review?.author}
               </div>
-              <p className="text-[14px] opacity-80">
-                Written by{" "}
-                <span className="font-semibold">{review?.author}</span> on{" "}
+              <p className="text-[14px] opacity-80 ml-[20px]">
+                Written by {" "}
+                <span className="font-semibold">{review?.author}</span> on {" "}
                 {moment(review?.created_at).format("MMM D, YYYY")}
               </p>
+              </div>
+            </div>
+            <div className="ml-[20px] mobile:col-start-1 mobile:ml-[0]">
               <div className="mt-[30px] mobile:mt-[10px]">
                 {review?.content?.length >= 1000
                   ? review?.content.substring(0, 1000) + "..." + "read THE REST"

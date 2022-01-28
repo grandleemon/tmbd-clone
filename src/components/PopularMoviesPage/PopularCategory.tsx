@@ -1,6 +1,5 @@
 import axios from 'axios'
-import moment from 'moment';
-import React, {useState, useEffect} from 'react'
+import {useState, useEffect} from 'react'
 import MovieCard from '../MovieCard';
 import './PopularCategory.css'
 

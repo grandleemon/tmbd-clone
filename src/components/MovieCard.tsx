@@ -1,6 +1,5 @@
 import moment from 'moment'
-import React from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 interface MovieCardTypes{
     id: number,
@@ -11,10 +10,6 @@ interface MovieCardTypes{
     vote_average: number,
     setVoteClass: any
 }
-
-
-
-
 
 const MovieCard = ({id, poster_path, title, release_date, basicImageUrl, vote_average, setVoteClass}:MovieCardTypes) => {
     const navigate = useNavigate()

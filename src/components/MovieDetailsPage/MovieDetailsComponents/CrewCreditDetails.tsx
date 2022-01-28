@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getCrewCreditDetails } from '../../../api/api'
+import { getCrewCreditDetails } from '../../../api/movieDetails/movieDetailsApi'
 
 const CrewCreditDetails = ({id, movieDetails}: any) => {
     const [crewDetails, setCrewDetails] = useState([])

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getRecomendations } from "../../../api/api";
+import { getRecomendations } from '../../../api/movieDetails/movieDetailsApi'
 import blank from './../../../assets/blank-icon.png'
 
 const MovieRecomendations = ({id, movieDetails}: any) => {

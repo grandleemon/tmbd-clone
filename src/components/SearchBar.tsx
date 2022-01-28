@@ -1,18 +1,11 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const SearchBar = () => {
     const [value, setValue] = useState('')
     const [searchedMovies, setSearchedMovies] = useState([])
     const navigate = useNavigate()
-
-    const handleSubmit = async () => {
-         await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=1e5bf08e3e7de0739102ef8a9c371945&language=en-US&query=${value}`)
-        .then((response) => {
-             console.log(response);
-        })
-    }
 
     const handleChange = async (e: string) => {
         setValue(e)
