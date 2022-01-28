@@ -8,11 +8,9 @@ import './Header.css'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
-import { addUser } from '../../features/userInfo/userInfoSlice'
-import { userInfoSelector } from '../../features/userInfo'
+import { addUser, userInfoSelector } from '../../features/userInfo'
 import { userTokenSelector } from '../../features/userToken'
-
-
+import { userSessionSelector } from '../../features/userSession'
 
 type SectionProps = {
     title: string
@@ -36,19 +34,19 @@ const SectionLink: FC = ({ children }) => (
 const Header: FC = () => {
     
     const [toggleMenu, setToggleMenu] = useState<boolean>(false);
-    const dispatch = useDispatch()
-
     const userInfo = useSelector(userInfoSelector)
     const requestToken = useSelector(userTokenSelector)
+    const session = useSelector(userSessionSelector)
+    const dispatch = useDispatch()
 
     const handleMenu = () => {
         setToggleMenu(!toggleMenu)
     }
 
     const handleDelete = async () => {
-        // if(session) 
-        //     await axios.delete(`${process.env.REACT_APP_API_URL}/authentication/session?api_key=${process.env.REACT_APP_API_KEY}`, { data: {session_id: session}})
-        //     dispatch(addUser({id: null, name: null}))
+        if(userInfo.id) 
+            await axios.delete(`${process.env.REACT_APP_API_URL}/authentication/session?api_key=${process.env.REACT_APP_API_KEY}`, { data: {session_id: session.userSession}})
+            dispatch(addUser({id: null, name: null}))
     }
 
     return (
@@ -132,4 +130,5 @@ const Header: FC = () => {
     )
 }
 
-export default Header
+export default Header;
+
