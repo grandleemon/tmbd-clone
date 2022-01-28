@@ -8,7 +8,7 @@ import { fetchUserData } from '../../features/userInfo/userInfoSlice'
 import { userSessionSelector } from '../../features/userSession'
 import { createSession, fetchUserSession } from '../../features/userSession/userSessionSlice'
 
-const Approved = (props: any) => {
+const Approved = () => {
     const [searchParams, setSearchParams] = useSearchParams()
     const token: any = searchParams.get('request_token')
     const session = useSelector(userSessionSelector)

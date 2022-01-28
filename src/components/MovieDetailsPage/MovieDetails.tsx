@@ -41,7 +41,6 @@ const MovieDetails = (props: any) => {
     const [movieDetails, setMovieDetails]= useState<MovieDetailsTypes>()
     const MovieInfo = React.lazy(() => import('./MovieDetailsComponents/MovieInfo'))
     
-
     useEffect( () => {
         getMovieDetails(id, setMovieDetails);
     }, [id])  
