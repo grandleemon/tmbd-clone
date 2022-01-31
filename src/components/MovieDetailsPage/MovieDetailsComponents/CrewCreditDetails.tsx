@@ -1,16 +1,24 @@
-import React, { useEffect, useState } from 'react'
-import { getCrewCreditDetails } from '../../../api/movieDetails/movieDetailsApi'
+import { FC, useEffect, useState } from 'react'
+import { movieApi } from '../../../api'
+import { IProps } from '../../../models/movie/moviePropsTypes'
 
-const CrewCreditDetails = ({id, movieDetails}: any) => {
-    const [crewDetails, setCrewDetails] = useState([])
+type CrewTypes = {
+    name: string, 
+    job: string, 
+    id: number
+}
+
+const CrewCreditDetails: FC<IProps> = ({id, movieDetails}) => {
+    const [crewDetails, setCrewDetails] = useState<CrewTypes[]>([])
 
     useEffect( ()=>{
-        getCrewCreditDetails(id, setCrewDetails)
+        if(id) movieApi.getCrewCreditDetails(id)
+        .then(({ data, error }: any) => data ? setCrewDetails(data) : console.error(error))
     }, [movieDetails])
 
     return (
         <>
-            {crewDetails?.slice(0, 7).map( (credit: {name: string, job: string, id: number}) => (
+            {crewDetails?.slice(0, 7).map( credit => (
                 <div className="w-[150px]">
                     <span className="font-bold">{credit.name}</span>
                     <p className="text-[14px]">{credit.job}</p>

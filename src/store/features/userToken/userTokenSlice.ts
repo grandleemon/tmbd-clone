@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
+import { authApi } from "../../../api";
 
 interface UserTokenState {
     userToken: string | null
@@ -13,8 +13,8 @@ export const userTokenSlice = createSlice({
     name: 'userToken',
     initialState,
     reducers: {
-        addToken: (state, action) => {
-            const {userToken}: UserTokenState = action.payload
+        addToken: (state, action: PayloadAction<UserTokenState>) => {
+            const {userToken} = action.payload
             state.userToken = userToken
         }
     },
@@ -27,8 +27,8 @@ export const userTokenSlice = createSlice({
 }) 
 
 export const fetchRequestToken = createAsyncThunk('userToken/fetchUserToken', async () => {
-    const response = await axios.get(`${process.env.REACT_APP_API_URL}/authentication/token/new?api_key=${process.env.REACT_APP_API_KEY}`)
-    return response.data.request_token
+    const response = await authApi.getToken()
+    return response.data
 })
 
 export const {addToken} = userTokenSlice.actions

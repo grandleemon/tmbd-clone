@@ -1,17 +1,19 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useSearchParams } from 'react-router-dom'
-import { fetchUserData } from '../../features/userInfo/userInfoSlice'
-import { userSessionSelector } from '../../features/userSession'
-import { fetchUserSession } from '../../features/userSession/userSessionSlice'
+import { fetchUserData } from '../../store/features/userInfo/userInfoSlice'
+import { userSessionSelector } from '../../store/features/userSession'
+import { fetchUserSession } from '../../store/features/userSession/userSessionSlice'
 
 const Approved = () => {
     const [searchParams, setSearchParams] = useSearchParams()
-    const token: any = searchParams.get('request_token')
+    const token: string | null = searchParams.get('request_token')
     const session = useSelector(userSessionSelector)
     const dispatch = useDispatch()
 
     useEffect( () => {
+        if(!token) return;
+        
         dispatch(fetchUserSession(token))
     },[token])
 

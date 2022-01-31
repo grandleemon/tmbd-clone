@@ -1,5 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
+import { authApi } from "../../../api";
 
 interface UserSessionState {
     userSession: string | null
@@ -13,8 +14,8 @@ export const userSessionSlice = createSlice({
     name: 'userSession',
     initialState,
     reducers: {
-        createSession: (state, action) => {
-            const {userSession}: UserSessionState = action.payload
+        createSession: (state, action: PayloadAction<UserSessionState>) => {
+            const {userSession} = action.payload
             state.userSession = userSession
         }
     },
@@ -27,8 +28,8 @@ export const userSessionSlice = createSlice({
 }) 
 
 export const fetchUserSession = createAsyncThunk('userSession/fetchUserSession', async (token: string) => {
-    const response = await axios.post(`${process.env.REACT_APP_API_URL}/authentication/session/new?api_key=${process.env.REACT_APP_API_KEY}`, {request_token: token})
-    return response.data.session_id
+    const response = await authApi.getSession(token)
+    return response.data
 })
 
 export const {createSession} = userSessionSlice.actions

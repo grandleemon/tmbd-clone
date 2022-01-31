@@ -1,23 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { getSocialsIds } from '../../../api/movieDetails/movieDetailsApi'
+import { FC, useEffect, useState } from "react";
+import { getSocialsIds } from '../../../api/movie'
 import facebook from './../../../assets/facebook.png'
 import twitter from './../../../assets/twitter.png'
 import instagram from './../../../assets/instagram.png'
 import homepage from './../../../assets/home.png'
+import { IProps } from "../../../models/movie/moviePropsTypes";
 
-interface Socials{
+export type Socials = {
     imdb_id: string 
-    facebook_id:string
-    instagram_id:string 
-    twitter_id:string 
+    facebook_id: string
+    instagram_id: string 
+    twitter_id: string 
 }
 
-const MovieSocials = ({id, movieDetails}: any) => {
+const MovieSocials: FC<IProps> = ({id, movieDetails}) => {
     const [socials, setSocials] = useState<Socials>()
 
     useEffect(() => {
-        getSocialsIds(id, setSocials)
-    }, [movieDetails])
+        getSocialsIds(id)
+        .then(({ data, error }: any) => data ? setSocials(data) : console.error(error))
+}, [movieDetails])
+
   return (
     <>
       {socials?.facebook_id && (

@@ -1,22 +1,27 @@
 import moment from "moment";
-import { useEffect, useState } from "react";
-import { getReviews } from '../../../api/movieDetails/movieDetailsApi';
+import { FC, useEffect, useState } from "react";
+import { getReviews } from '../../../api/movie';
+import { IProps } from "../../../models/movie/moviePropsTypes";
 
-const MovieReviews = ({id, movieDetails}: any) => {
-    const [reviews, setReviews] = useState([])
+type ReviewsTypes = {
+  content: string;
+  author: string;
+  created_at: string;
+  author_details: { avatar_path: string };
+}
+
+const MovieReviews: FC<IProps> = ({id, movieDetails}) => {
+    const [reviews, setReviews] = useState<ReviewsTypes[]>([])
 
     useEffect(() => {
-        getReviews(id, setReviews)
+        getReviews(id)
+        .then(({ data, error }: any) => data ? setReviews(data) : console.error(error))
     }, [movieDetails])
+
   return (
     <>
       {reviews.map(
-        (review: {
-          content: string;
-          author: string;
-          created_at: string;
-          author_details: { avatar_path: string };
-        }) => (
+        review => (
           <div className="border p-[20px]  rounded-md shadow-lg">
             <div className="flex">
               {review?.author_details?.avatar_path ? (

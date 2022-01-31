@@ -1,21 +1,28 @@
-import axios from 'axios';
 import moment from 'moment';
+import { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { userInfoSelector } from '../../../features/userInfo';
-import { userSessionSelector } from '../../../features/userSession';
+import { movieApi } from '../../../api';
+import { MovieDetailsTypes } from '../../../models/movie/movieTypes';
+import { userInfoSelector } from '../../../store/features/userInfo';
+import { userSessionSelector } from '../../../store/features/userSession';
 import blank from './../../../assets/blank-icon.png'
 import heart from './../../../assets/heart.png'
+import loader from './../../../assets/loader.gif'
 import CrewCreditDetails from './CrewCreditDetails';
 
-const MovieInfo = ({movieDetails}:any) => {
-    
-    const basicImageUrl = "https://image.tmdb.org/t/p/original/"
-    const {id}: any = useParams()
-    const userInfo: any = useSelector<any>(userInfoSelector)
+type IProps = {
+    movieDetails: MovieDetailsTypes
+}
+
+const basicImageUrl = "https://image.tmdb.org/t/p/original/"
+
+const MovieInfo: FC<IProps> = ({movieDetails}) => {
+    const { id } = useParams<{id?:string}>()
+    const userInfo = useSelector(userInfoSelector)
     const session = useSelector(userSessionSelector)
 
-    const calcTime = (time: number | undefined) => {
+    const calcTime = (time: number) => {
         if(time){
             const hours = Math.floor(time / 60)
             const minutes = time % 60
@@ -24,15 +31,14 @@ const MovieInfo = ({movieDetails}:any) => {
         }
     }
 
-    const addToFavorite = async () => {
-        if(userInfo.id !== null){
-            await axios.post(`https://api.themoviedb.org/3/account/${userInfo.id}/favorite?api_key=1e5bf08e3e7de0739102ef8a9c371945&session_id=${session.userSession}`, {media_type: "movie", media_id: id, favorite: "true"})
-            .then(response => {
-                console.log(response)
-            })
+    const addToFavorite = () => {
+        if(userInfo.id && id){
+            movieApi.addToFavorite(userInfo.id, session.userSession, id)
+            alert("ADDED")
         } else {
             alert("you need to login first")
         }
+
     }
 
     const setVoteClass = (vote: number | undefined) => {
@@ -45,12 +51,17 @@ const MovieInfo = ({movieDetails}:any) => {
 
     return (
         <>
-            <img src={basicImageUrl + movieDetails?.backdrop_path} alt="backdrop-image" className="w-full h-[800px] object-cover object-top mobile:h-[1300px] tablet:h-[1300px]" /> 
-            <div className={`absolute ${movieDetails?.backdrop_path ? "bg-gradient-to-r from-black" : "bg-[#a7a2a2]"} w-full h-[800px] top-0 mobile:h-[1300px] tablet:h-[1300px]`}>
+        {Object.keys(movieDetails).length ? 
+            <div>
+                <img src={basicImageUrl + movieDetails?.backdrop_path} alt="backdrop-image" className="w-full h-[800px] object-cover object-top mobile:h-[1300px] tablet:h-[1300px]" /> 
+                <div className={`absolute ${movieDetails?.backdrop_path ? "bg-gradient-to-r from-black" : "bg-[#a7a2a2]"} w-full h-[800px] top-0 mobile:h-[1300px] tablet:h-[1300px]`}>
                     <div className="w-[95%] m-auto md:w-[90%] lg:w-[90%] xl:w-[70%] 2xl:w-[70%] flex pt-[40px] gap-[50px] tablet:gap-[20px] mobile:flex-col mobile:pt-[10px]">
-                        {movieDetails?.poster_path ? <div className="w-[400px] h-[500px] mobile:w-[200px] mobile:h-[300px] tablet:w-[200px] tablet:h-[300px]">
-                            <img src={basicImageUrl + movieDetails?.poster_path} alt="poster" className="w-[400px] h-[500px] object-cover mobile:w-[200px] mobile:h-[300px] tablet:w-[200px] tablet:h-[300px] smallpc:w-[500px]"/>
-                        </div> : <div className="w-[400px] h-[500px] bg-[#c7c2c2d6] flex items-center justify-center rounded-lg">
+                        {movieDetails?.poster_path ? 
+                        <div className="w-[400px] h-[500px] mobile:w-[200px] mobile:h-[300px] tablet:w-[200px] tablet:h-[300px]">
+                            <img src={basicImageUrl + movieDetails?.poster_path} alt="poster" className="w-[400px] h-[500px] object-cover mobile:w-[200px] mobile:h-[300px] 
+                            tablet:w-[200px] tablet:h-[300px] smallpc:w-[500px]"/>
+                        </div> : 
+                        <div className="w-[400px] h-[500px] bg-[#c7c2c2d6] flex items-center justify-center rounded-lg">
                                     <img src={blank} alt="" className="w-[100px] h-[100px] "/>
                             </div>}
                         <div className="w-[70%] mobile:w-[100%]">
@@ -67,7 +78,8 @@ const MovieInfo = ({movieDetails}:any) => {
                                     <span className="mx-[10px]">&bull;</span>
                                 <span>{calcTime(movieDetails?.runtime)}</span>
                                 <div className="mt-[25px] flex items-center">
-                                    <div className={`select-none font-bold bg-[#153e4a] w-[60px] h-[60px] rounded-full flex items-center justify-center text-[1.2em] px-[20px] py-[20px] ${setVoteClass(movieDetails?.vote_average)}`}>{movieDetails?.vote_average ? movieDetails?.vote_average * 10 : ""} 
+                                    <div className={`select-none font-bold bg-[#153e4a] w-[60px] h-[60px] rounded-full flex items-center justify-center text-[1.2em] px-[20px] 
+                                    py-[20px] ${setVoteClass(movieDetails?.vote_average)}`}>{movieDetails?.vote_average ? movieDetails?.vote_average * 10 : ""} 
                                         <span className="text-[11px]">%</span>
                                     </div>
                                     <span className="font-bold ml-[11px]">User <br /> Score</span>
@@ -80,7 +92,7 @@ const MovieInfo = ({movieDetails}:any) => {
                                     <p>{movieDetails?.overview}</p>
                                 </div>
                                 <div className="grid grid-cols-3 grid-rows-3 mt-[30px] gap-y-[20px] tablet:grid-cols-2 smallpc:grid-cols-2">
-                                    <CrewCreditDetails id={id} movieDetails={movieDetails}/>
+                                    {id && <CrewCreditDetails id={id} movieDetails={movieDetails}/>}
                                 </div>
                             </div>
                             <div className="hidden text-white mobile:block tablet:block">
@@ -98,7 +110,8 @@ const MovieInfo = ({movieDetails}:any) => {
                                 </div>       
                                 <span>{calcTime(movieDetails?.runtime)}</span>
                                 <div className="mt-[25px] flex items-center">
-                                    <div className={`select-none font-bold bg-[#153e4a] w-[60px] h-[60px] rounded-full flex items-center justify-center text-[1.2em] px-[20px] py-[20px] ${setVoteClass(movieDetails?.vote_average)}`}>{movieDetails?.vote_average ? movieDetails?.vote_average * 10 : ""} 
+                                    <div className={`select-none font-bold bg-[#153e4a] w-[60px] h-[60px] rounded-full flex items-center justify-center text-[1.2em] px-[20px] 
+                                    py-[20px] ${setVoteClass(movieDetails?.vote_average)}`}>{movieDetails?.vote_average ? movieDetails?.vote_average * 10 : ""} 
                                         <span className="text-[11px]">%</span>
                                     </div>
                                     <span className="font-bold ml-[11px]">User <br /> Score</span>
@@ -111,14 +124,18 @@ const MovieInfo = ({movieDetails}:any) => {
                                     <p>{movieDetails?.overview}</p>
                                 </div>
                                 <div className="grid grid-cols-2 grid-rows-3 mt-[30px] gap-y-[20px]">
-                                    <CrewCreditDetails id={id} movieDetails={movieDetails}/>
+                                    {id && <CrewCreditDetails id={id} movieDetails={movieDetails}/>}
                                 </div>
                             </div>
                         </div>
                     </div>
-            </div> 
+                </div> 
+            </div> : 
+            <div className="flex items-center justify-center h-[100%] w-[100%]">
+                <img src={loader} alt="spinner" className="w-[64px] h-[64px]" />
+            </div>}
         </>
     )
 }
 
-export default MovieInfo
+export default MovieInfo;

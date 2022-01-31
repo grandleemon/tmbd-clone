@@ -1,25 +1,35 @@
-import axios from 'axios'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { movieApi } from '../../api'
+import useDocumentTitle from '../../hooks/useTitle'
+
+type MoviesByKeywordTypes = {
+  title: string;
+  poster_path: string;
+  release_date: string;
+  overview: string;
+  id: number;
+};
+
+const basicImageUrl = "https://image.tmdb.org/t/p/original/"
 
 const MoreMoviesByKeyword = () => {
     const navigate = useNavigate()
     const {id, name} = useParams()
-    const [moviesByKeyword, setMoviesByKeyword] = useState([])
-    const basicImageUrl = "https://image.tmdb.org/t/p/original/"
-
+    const [moviesByKeyword, setMoviesByKeyword] = useState<MoviesByKeywordTypes[]>([])
+   
     useEffect( () => {
-        document.title = `${name} results`
-        axios.get(`https://api.themoviedb.org/3/keyword/${id}/movies?api_key=1e5bf08e3e7de0739102ef8a9c371945&language=en-US`)
-        .then(response => {
-            setMoviesByKeyword(response.data.results)
-        })
+        if(id)
+            movieApi.getMoreMoviesByKeyword(id)
+            .then(({ data, error }: any) => data ? setMoviesByKeyword(data): console.error(error))
     })
 
     const handleNavigate = (id: number, title: string) => {
         navigate(`/movie/${id}-${title}`)
     }
+
+    useDocumentTitle(`${name} results`)
 
     return (
         <div className="">
@@ -28,7 +38,7 @@ const MoreMoviesByKeyword = () => {
             </div>
             <div className="w-[95%] m-auto md:w-[80%] lg:w-[70%]">
                 <div className="flex flex-col gap-y-[30px] mt-[30px]">
-                {moviesByKeyword?.map((movie: {title: string, poster_path: string, release_date: string, overview: string, id: number}) => (
+                {moviesByKeyword?.map(movie => (
                     <div className="w-full min-h-[141px] border shadow-lg cursor-pointer grid grid-cols-12 gap-x-[10px] rounded-l-md hover:translate-y-[-15px] duration-300 mobile:grid-cols-1 mobile:gap-x-0" onClick={() => handleNavigate(movie.id, movie.title)}>
                         <div className="w-full h-full col-span-1 justify-center mobile:p-[15px] tablet:col-span-4 smallpc:col-span-3 mdpc:col-span-2">
                             <img className="w-full h-full rounded-l-md mobile:rounded-md" src={basicImageUrl + movie?.poster_path} alt="poster-img" />

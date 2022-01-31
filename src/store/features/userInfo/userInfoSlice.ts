@@ -1,11 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
+import { userApi } from "../../../api";
 
 interface UserState {
     id: string | null,
     name: string | null
 }
-
 
 const initialState: UserState = {
     id: null,
@@ -16,8 +15,8 @@ export const userInfoSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        addUser: (state, action) => {
-            const {id, name}: UserState = action.payload
+        addUser: (state, action : PayloadAction<UserState>) => {
+            const {id, name} = action.payload
             state.id = id
             state.name = name
         }
@@ -25,15 +24,19 @@ export const userInfoSlice = createSlice({
     extraReducers(builder) {
         builder
             .addCase(fetchUserData.fulfilled, (state, action) => {
-                state.id = action.payload.data.id
-                state.name = action.payload.data.username
+                if(action.payload) {
+                    state.id = action.payload.data.id
+                    state.name = action.payload.data.username
+                }
             })
     }
 }) 
 
-export const fetchUserData = createAsyncThunk('userInfo/fetchUserData', async (session: any) => {
-    const response = await axios.get(`${process.env.REACT_APP_API_URL}/account?api_key=${process.env.REACT_APP_API_KEY}&session_id=${session}`)
-    return response
+export const fetchUserData = createAsyncThunk('userInfo/fetchUserData', async (session: string | null) => {
+    if(session) {
+        const response = await userApi.getUserData(session)
+        return response
+    }
 })
 
 export const {addUser} = userInfoSlice.actions

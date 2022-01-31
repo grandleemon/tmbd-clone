@@ -1,14 +1,23 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getRecomendations } from '../../../api/movieDetails/movieDetailsApi'
+import { getRecomendations } from '../../../api/movie'
+import { IProps } from "../../../models/movie/moviePropsTypes";
 import blank from './../../../assets/blank-icon.png'
 
-const MovieRecomendations = ({id, movieDetails}: any) => {
-    const [recomendations, setRecomendations] = useState([])
+type Recomendations = {
+    backdrop_path: string;
+    title: string;
+    vote_average: number;
+    id: number;
+}
+
+const MovieRecomendations: FC<IProps> = ({id, movieDetails}) => {
+    const [recomendations, setRecomendations] = useState<Recomendations[]>([])
     const navigate = useNavigate()
 
     useEffect(() => {
-        getRecomendations(id, setRecomendations)
+        getRecomendations(id)
+        .then(({ data, error }: any) => data ? setRecomendations(data) : console.error(error))
     }, [movieDetails])
 
     const handleNavigate = (id: number, title: string) => {
@@ -17,12 +26,7 @@ const MovieRecomendations = ({id, movieDetails}: any) => {
   return (
     <>
       {recomendations?.map(
-        (recomendation: {
-          backdrop_path: string;
-          title: string;
-          vote_average: number;
-          id: number;
-        }) => (
+        recomendation => (
           <div
             className="w-[250px] h-[184px] cursor-pointer"
             onClick={() =>

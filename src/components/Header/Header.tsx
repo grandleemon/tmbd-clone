@@ -1,16 +1,16 @@
-import React, {FC, useEffect, useState} from 'react'
+import { FC, useState } from 'react'
 import logo from './../../assets/logo.svg'
 import notification from './../../assets/bell.png'
 import user from './../../assets/user.svg'
 import search from './../../assets/search.svg'
 import menu from './../../assets/menu.png'
-import './Header.css'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
-import { addUser, userInfoSelector } from '../../features/userInfo'
-import { userTokenSelector } from '../../features/userToken'
-import { userSessionSelector } from '../../features/userSession'
+import { addUser, userInfoSelector } from '../../store/features/userInfo'
+import { userTokenSelector } from '../../store/features/userToken'
+import { userSessionSelector } from '../../store/features/userSession'
+import { authApi } from '../../api'
+import './Header.css'
 
 type SectionProps = {
     title: string
@@ -32,7 +32,6 @@ const SectionLink: FC = ({ children }) => (
 )
 
 const Header: FC = () => {
-    
     const [toggleMenu, setToggleMenu] = useState<boolean>(false);
     const userInfo = useSelector(userInfoSelector)
     const requestToken = useSelector(userTokenSelector)
@@ -45,7 +44,7 @@ const Header: FC = () => {
 
     const handleDelete = async () => {
         if(userInfo.id) 
-            await axios.delete(`${process.env.REACT_APP_API_URL}/authentication/session?api_key=${process.env.REACT_APP_API_KEY}`, { data: {session_id: session.userSession}})
+            await authApi.logOut(session.userSession)
             dispatch(addUser({id: null, name: null}))
     }
 
@@ -88,11 +87,15 @@ const Header: FC = () => {
                     <div className="hidden sm:block">
                         <ul className="flex items-center gap-[20px]">
                             <li>
-                                <a href="#"> <img src={notification} alt="" className="w-[24px] h-[24px] cur"/> </a>
+                                <a href="#"> <img src={notification} alt="" className="w-[24px] h-[24px]"/> </a>
                             </li>
-                            {userInfo.id == null ? <li>
-                                <a href={`https://www.themoviedb.org/authenticate/${requestToken.userToken}?redirect_to=http://localhost:3000/approved`}> <img src={user} alt="" className="w-[32px] h-[32px]" /> </a>
-                            </li> : <span className="text-white relative account-menu-trigger p-[15px] cursor-pointer hover:underline">
+                            {userInfo.id == null ? 
+                            <li>
+                                <a href={`https://www.themoviedb.org/authenticate/${requestToken.userToken}?redirect_to=http://localhost:3000/approved`}> 
+                                    <img src={user} alt="" className="w-[32px] h-[32px]" /> 
+                                </a>
+                            </li> : 
+                            <span className="text-white relative account-menu-trigger p-[15px] cursor-pointer hover:underline"> 
                                 {userInfo.name}
                                 <div className="account-menu bg-white text-black z-[222] font-bold border border-grey rounded-md">
                                     <ul className="flex flex-col gap-[10px]">
@@ -104,7 +107,7 @@ const Header: FC = () => {
                                         </li>
                                     </ul>
                                     </div>
-                                </span>}
+                                </span>} 
                             <li>
                                 <a href="#sdaa"> <img src={search} alt="" className="w-[32px] h-[32px]" /> </a>
                             </li>

@@ -1,33 +1,31 @@
-import axios from 'axios'
 import moment from 'moment'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { movieApi } from '../../api'
+import useDocumentTitle from '../../hooks/useTitle'
 import SearchBar from '../SearchBar'
 import loader from './../../assets/loader.gif'
 
+type Movie = {
+    title: string,
+    poster_path: string, 
+    vote_average: number, 
+    release_date: string, 
+    id: number
+}
+
+const basicImageUrl = "https://image.tmdb.org/t/p/original/"
+
 const Home = () => {
     const navigate = useNavigate()
-    const [movies, setMovies] = useState([])
+    const [movies, setMovies] = useState<Movie[]>([])
     const [page, setPage] = useState<number>(Math.floor(Math.random() * 100))
-    const [isLoading, setIsLoading] = useState<boolean>()
-    const apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=1e5bf08e3e7de0739102ef8a9c371945&language=en-US&page=${page}`
-    const basicImageUrl = "https://image.tmdb.org/t/p/original/"
+    
+    useDocumentTitle("The Movie Database (TMDB)")
 
     useEffect( () => {
-        document.title = "The Movie Database (TMDB)"
-        async function getMovies(){
-            try {
-                const res = await axios.get(apiUrl)
-                .then((response) => {
-                const allMovies = response.data.results;
-                setMovies(allMovies)
-                setIsLoading(true)
-                })
-            } catch (error) {
-                console.error(error)
-            } 
-        } 
-        getMovies();
+        movieApi.getMovies(page)
+            .then(({ data, error }: any) => data ? setMovies(data) : console.error(error))
     }, []);
 
     const setVoteClass = (vote: number | undefined) => {
@@ -49,14 +47,17 @@ const Home = () => {
                 <div className="flex items-center">
                     <h2 className="font-bold text-[1.5em]">What's Popular</h2>
                 </div>
-                {isLoading ? <div className="flex overflow-x-scroll gap-x-[20px] mt-[20px]">
-                    {movies.map((movie: {title: string, poster_path: string, vote_average: number, release_date: string, id: number}) => (
+                {movies.length  ? 
+                <div className="flex overflow-x-scroll gap-x-[20px] mt-[20px]">
+                    {movies.map(movie => (
                         <div key={movie.id} className="w-[150px] h-[400px] relative">
                             <div className="h-[225px] w-[150px]">
-                                <img src={basicImageUrl + movie?.poster_path} alt="" className="h-[225px] w-[150px] rounded-lg cursor-pointer" onClick={() => handleNavigate(movie.id, movie.title)}/>
+                                <img src={basicImageUrl + movie?.poster_path} alt="poster image" className="h-[225px] w-[150px] rounded-lg cursor-pointer" 
+                                onClick={() => handleNavigate(movie.id, movie.title)}/>
                             </div>
-                            <div className={`select-none absolute left-[8%] top-[51%] font-bold bg-[#153e4a] w-[40px] h-[40px] rounded-full flex items-center justify-center text-[1em] p-[20px] ${setVoteClass(movie?.vote_average)}`}>{movie?.vote_average ? movie?.vote_average * 10 : ""} 
-                                    <span className="text-[11px]">%</span>
+                            <div className={`select-none absolute left-[8%] top-[51%] font-bold bg-[#153e4a] w-[40px] h-[40px] rounded-full flex items-center justify-center 
+                            text-[1em] p-[20px] ${setVoteClass(movie?.vote_average)}`}>{movie?.vote_average ? movie?.vote_average * 10 : ""} 
+                                <span className="text-[11px]">%</span>
                             </div>
                             <div className="p-[15px]">
                                 <Link to={`/movie/${movie.id}-${movie.title}`} className="font-bold text-[1rem] hover:text-[#01B4E4] duration-300">{movie?.title}</Link>
@@ -64,9 +65,10 @@ const Home = () => {
                             </div>
                         </div>
                     ))}
-                </div> : <div className="flex items-center justify-center h-[417px]">
-                        <img src={loader}/>
-                    </div> }
+                </div> : 
+                <div className="flex items-center justify-center h-[438px]">
+                    <img src={loader} alt="loader" />
+                </div> }
             </div>
 
         </div>

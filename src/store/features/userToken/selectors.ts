@@ -1,3 +1,3 @@
-import { RootState } from "../../app/store";
+import { RootState } from "../..";
 
 export const userTokenSelector = (state: RootState) => state.userToken

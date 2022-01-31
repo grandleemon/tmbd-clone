@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getMovieKeywords } from '../../../api/movieDetails/movieDetailsApi'
+import { getMovieKeywords } from '../../../api/movie'
+import { IProps } from "../../../models/movie/moviePropsTypes";
 
-const MovieKeywords = ({id, movieDetails}: any) => {
+const MovieKeywords: FC<IProps> = ({id, movieDetails}) => {
     const [movieKeywords, setMovieKeywords] = useState([])
     const navigate = useNavigate()
 
     useEffect(() => {
-        getMovieKeywords(id, setMovieKeywords)
+        getMovieKeywords(id)
+        .then(({ data, error }:any) => data ? setMovieKeywords(data) : console.error(error))
     }, [movieDetails])
 
     const handleKeywordNavigate = (id: number, name: string) => {
