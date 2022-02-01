@@ -28,7 +28,7 @@ const ListSection: FC<SectionProps> = ({ children, title }) => (
 )
 
 const SectionLink: FC = ({ children }) => (
-    <li><a href="#" className="hover:bg-gray-300 block px-[20px] py-[3px]">{children}</a></li>
+    <li><a href="#" className="bg-gray-400 block px-[20px] py-[3px] cursor-not-allowed">{children}</a></li>
 )
 
 const Header: FC = () => {
@@ -58,7 +58,7 @@ const Header: FC = () => {
                                 <img src={logo} alt="" />
                             </Link>
                         </div>
-                        <div className="ml-[25px] hidden sm:block">
+                        <div className="ml-[25px] hidden lg:block">
                             <ul className="text-white text-[15px] flex gap-[20px] lg:text-[16px]">
                                 <ListSection title="Movies">
                                     <li><Link to='/movie' className="hover:bg-gray-300 block px-[20px] py-[3px]">Popular</Link></li>
@@ -84,11 +84,8 @@ const Header: FC = () => {
                             </ul>
                         </div>
                     </div>
-                    <div className="hidden sm:block">
+                    <div className="hidden lg:block">
                         <ul className="flex items-center gap-[20px]">
-                            <li>
-                                <a href="#"> <img src={notification} alt="" className="w-[24px] h-[24px]"/> </a>
-                            </li>
                             {userInfo.id == null ? 
                             <li>
                                 <a href={`https://www.themoviedb.org/authenticate/${requestToken.userToken}?redirect_to=http://localhost:3000/approved`}> 
@@ -107,22 +104,30 @@ const Header: FC = () => {
                                         </li>
                                     </ul>
                                     </div>
-                                </span>} 
-                            <li>
-                                <a href="#sdaa"> <img src={search} alt="" className="w-[32px] h-[32px]" /> </a>
-                            </li>
+                                </span>
+                            } 
                         </ul>
                     </div>
-                    <div className="sm:hidden">
-                        <img src={menu} alt="menu" className="w-[44px] h-[44px]" onClick={handleMenu}/>
-                        {toggleMenu && <div className="absolute right-0 bg-[#032541] text-white w-[160px] z-[1]">
+                    <div className="lg:hidden">
+                        <div className="flex">
+                            {userInfo.id && <span className="text-white flex items-center">Hi, {userInfo.name}</span>}
+                            <img src={menu} alt="menu" className="w-[44px] h-[44px]" onClick={handleMenu}/>
+                        </div>
+                        {toggleMenu && <div className="absolute right-0 md:right-[10%] bg-[#032541] text-white w-[160px] z-[1] rounded-md">
                                 <ul>
-                                    <li><a href="#">Movies</a></li>
-                                    <li><a href="#">TV Shows</a></li>
-                                    <li><a href="#">People</a></li>
-                                    <li><a href="#">More</a></li>
-                                    <li><a href="#">Notifications</a></li>
-                                    <li><a href="#">Account</a></li>
+                                    <li><Link to='/movie' className="px-[20px] py-[3px]">Popular Movies</Link></li>
+                                    {userInfo.id &&
+                                        <li><Link to={`/account/${userInfo.id}/favorites`} className="px-[20px] py-[3px] rounded-t-md">Favorites</Link></li>
+                                    }
+                                    {userInfo.id ?
+                                        <li>
+                                        <span className="hover:bg-gray-300 block px-[20px] py-[3px]" onClick={handleDelete}>Log Out</span>
+                                        </li> : 
+                                        <li><a 
+                                        href={`https://www.themoviedb.org/authenticate/${requestToken.userToken}?redirect_to=http://localhost:3000/approved`}
+                                        className="px-[20px] py-[3px]">Log In</a>
+                                        </li> 
+                                    }
                                 </ul>
                             </div>}
                     </div>

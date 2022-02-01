@@ -1,7 +1,7 @@
 import footerLogo from './../../assets/footer-logo.svg'
 
 const Footer = () => (
-    <div className="bg-[#031d33] py-[80px] mt-[50px]">
+    <div className="bg-[#031d33] py-[80px] mt-[51px]">
         <div className="w-[95%] m-auto md:w-[80%] lg:w-[50%] flex gap-x-[50px] justify-center mobile:grid mobile:grid-cols-1 tablet:grid">
             <div className="flex justify-center">
                 <a href="#">
