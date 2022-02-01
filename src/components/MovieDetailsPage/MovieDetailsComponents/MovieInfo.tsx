@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { movieApi } from '../../../api';
@@ -18,6 +18,8 @@ type IProps = {
 const basicImageUrl = "https://image.tmdb.org/t/p/original/"
 
 const MovieInfo: FC<IProps> = ({movieDetails}) => {
+    const [popupSuccess, setPopupSuccess] = useState<boolean>(false)
+    const [popupError, setPopupError] = useState<boolean>(false)
     const { id } = useParams<{id?:string}>()
     const userInfo = useSelector(userInfoSelector)
     const session = useSelector(userSessionSelector)
@@ -34,9 +36,11 @@ const MovieInfo: FC<IProps> = ({movieDetails}) => {
     const addToFavorite = () => {
         if(userInfo.id && id){
             movieApi.addToFavorite(userInfo.id, session.userSession, id)
-            alert("ADDED")
+            setPopupSuccess(true)
+            setTimeout(() => setPopupSuccess(false), 1500)
         } else {
-            alert("you need to login first")
+            setPopupError(true)
+            setTimeout(() => setPopupError(false), 1500)
         }
 
     }
@@ -53,6 +57,10 @@ const MovieInfo: FC<IProps> = ({movieDetails}) => {
         <>
         {Object.keys(movieDetails).length ? 
             <div>
+                <div className={`fixed top-[10px] left-[50%] translate-x-[-50%] w-[130px] bg-green-500 flex justify-center rounded-full z-[999]
+                ${popupSuccess ? "block" : "hidden"}`}>Succesfully added</div>
+                <div className={`fixed top-[10px] left-[50%] translate-x-[-50%] w-[160px] bg-red-500 text-white flex justify-center rounded-full z-[999] opacity-100 transition-opacity
+                ${popupError ? "block" : "hidden"}`}>You need to login first</div>
                 <img src={basicImageUrl + movieDetails?.backdrop_path} alt="backdrop-image" className="w-full h-[800px] object-cover object-top mobile:h-[1300px] tablet:h-[1300px]" /> 
                 <div className={`absolute ${movieDetails?.backdrop_path ? "bg-gradient-to-r from-black" : "bg-[#a7a2a2]"} w-full h-[800px] top-0 mobile:h-[1300px] tablet:h-[1300px]`}>
                     <div className="w-[95%] m-auto md:w-[90%] lg:w-[90%] xl:w-[70%] 2xl:w-[70%] flex pt-[40px] gap-[50px] tablet:gap-[20px] mobile:flex-col mobile:pt-[10px]">
@@ -62,7 +70,7 @@ const MovieInfo: FC<IProps> = ({movieDetails}) => {
                             tablet:w-[200px] tablet:h-[300px] smallpc:w-[500px]"/>
                         </div> : 
                         <div className="w-[400px] h-[500px] bg-[#c7c2c2d6] flex items-center justify-center rounded-lg">
-                                    <img src={blank} alt="" className="w-[100px] h-[100px] "/>
+                                    <img src={blank} alt="blank-icon" className="w-[100px] h-[100px] "/>
                             </div>}
                         <div className="w-[70%] mobile:w-[100%]">
                             <div className="hidden text-white smallpc:block mdpc:block otherpc:block">
@@ -83,8 +91,9 @@ const MovieInfo: FC<IProps> = ({movieDetails}) => {
                                         <span className="text-[11px]">%</span>
                                     </div>
                                     <span className="font-bold ml-[11px]">User <br /> Score</span>
-                                    <div className="w-[60px] h-[60px] rounded-full flex items-center justify-center bg-[#153e4a] cursor-pointer ml-[11px]" onClick={addToFavorite}>
-                                        <img src={heart} alt="" className="w-[32px] h-[32px]" />
+                                    <div className="w-[60px] h-[60px] rounded-full flex items-center justify-center bg-[#153e4a] cursor-pointer ml-[11px]" 
+                                    onClick={addToFavorite}>
+                                        <img src={heart} alt="heart-icon" className="w-[32px] h-[32px]" />
                                     </div>
                                 </div>
                                 <div className="mt-[25px]">
@@ -134,6 +143,7 @@ const MovieInfo: FC<IProps> = ({movieDetails}) => {
             <div className="flex items-center justify-center h-[100%] w-[100%]">
                 <img src={loader} alt="spinner" className="w-[64px] h-[64px]" />
             </div>}
+            
         </>
     )
 }
