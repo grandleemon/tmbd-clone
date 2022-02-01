@@ -19,7 +19,7 @@ const basicImageUrl = "https://image.tmdb.org/t/p/original/"
 
 const FavoritesMovies = () => {
     const [favoriteMovies, setFavoriteMovies] = useState<FavoriteMovies[]>([])
-    const {id} = useParams<{id?: string}>()
+    const { id } = useParams<{id?: string}>()
     const userInfo = useSelector(userInfoSelector)
     const session = useSelector(userSessionSelector)
 

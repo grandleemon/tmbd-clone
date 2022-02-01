@@ -29,7 +29,7 @@ const SearchBar = () => {
             placeholder="Search for a movie, tv show, person..." />
             {value && <div className="absolute z-[999] top-[80%] bg-white w-[100%] h-[500px]">
                 {searchedMovies?.map(movie => (
-                    <p className="cursor-pointer hover:bg-gray-500 hover:text-white" onClick={() => handleNavigate(movie.id, movie.title)}>{movie.title}</p>
+                    <p key={movie.id} className="cursor-pointer hover:bg-gray-500 hover:text-white" onClick={() => handleNavigate(movie.id, movie.title)}>{movie.title}</p>
                 ))}
             </div> }
         </div>

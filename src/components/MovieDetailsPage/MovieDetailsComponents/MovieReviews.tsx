@@ -2,6 +2,7 @@ import moment from "moment";
 import { FC, useEffect, useState } from "react";
 import { getReviews } from '../../../api/movie';
 import { IProps } from "../../../models/movie/moviePropsTypes";
+import blankUser from './../../../assets/blank-user-profile.png'
 
 type ReviewsTypes = {
   content: string;
@@ -37,7 +38,7 @@ const MovieReviews: FC<IProps> = ({id, movieDetails}) => {
                   className="w-[64px] h-[64px] rounded-full"
                 />
               ) : (
-                <div className="w-[64px] h-[64px] rounded-full"> no image </div>
+                <div className="w-[64px] h-[64px] rounded-full bg-grey-500"> <img src={blankUser} alt="w-[32px] h-[32px] rounded-full" /> </div>
               )}
               <div>
               <div className="font-bold text-[1.2em] ml-[20px] mobile:hidden">

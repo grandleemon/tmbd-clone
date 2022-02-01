@@ -20,7 +20,7 @@ const basicImageUrl = "https://image.tmdb.org/t/p/original/"
 const Home = () => {
     const navigate = useNavigate()
     const [movies, setMovies] = useState<Movie[]>([])
-    const [page, setPage] = useState<number>(Math.floor(Math.random() * 100))
+    const [page] = useState<number>(Math.floor(Math.random() * 100))
     
     useDocumentTitle("The Movie Database (TMDB)")
 

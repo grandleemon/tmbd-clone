@@ -1,8 +1,6 @@
 import { FC, useState } from 'react'
 import logo from './../../assets/logo.svg'
-import notification from './../../assets/bell.png'
 import user from './../../assets/user.svg'
-import search from './../../assets/search.svg'
 import menu from './../../assets/menu.png'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -38,6 +36,7 @@ const Header: FC = () => {
     const session = useSelector(userSessionSelector)
     const dispatch = useDispatch()
 
+   
     const handleMenu = () => {
         setToggleMenu(!toggleMenu)
     }
@@ -86,9 +85,9 @@ const Header: FC = () => {
                     </div>
                     <div className="hidden lg:block">
                         <ul className="flex items-center gap-[20px]">
-                            {userInfo.id == null ? 
+                            {!userInfo.id ? 
                             <li>
-                                <a href={`https://www.themoviedb.org/authenticate/${requestToken.userToken}?redirect_to=http://localhost:3000/approved`}> 
+                                <a href={`https://www.themoviedb.org/authenticate/${requestToken.userToken}?redirect_to=http://localhost:3000/`}> 
                                     <img src={user} alt="" className="w-[32px] h-[32px]" /> 
                                 </a>
                             </li> : 
@@ -117,16 +116,16 @@ const Header: FC = () => {
                                 <ul>
                                     <li><Link to='/movie' className="px-[20px] py-[3px]">Popular Movies</Link></li>
                                     {userInfo.id &&
-                                        <li><Link to={`/account/${userInfo.id}/favorites`} className="px-[20px] py-[3px] rounded-t-md">Favorites</Link></li>
+                                    <li><Link to={`/account/${userInfo.id}/favorites`} className="px-[20px] py-[3px] rounded-t-md">Favorites</Link></li>
                                     }
                                     {userInfo.id ?
-                                        <li>
-                                        <span className="hover:bg-gray-300 block px-[20px] py-[3px]" onClick={handleDelete}>Log Out</span>
-                                        </li> : 
-                                        <li><a 
-                                        href={`https://www.themoviedb.org/authenticate/${requestToken.userToken}?redirect_to=http://localhost:3000/approved`}
-                                        className="px-[20px] py-[3px]">Log In</a>
-                                        </li> 
+                                    <li>
+                                        <span className="hover:bg-gray-300 block px-[20px] pb-[3px]" onClick={handleDelete}>Log Out</span>
+                                    </li> : 
+                                    <li> <a 
+                                    href={`https://www.themoviedb.org/authenticate/${requestToken.userToken}?redirect_to=http://localhost:3000/`}
+                                    className="px-[20px] block py-[3px]">Log In</a>
+                                    </li> 
                                     }
                                 </ul>
                             </div>}

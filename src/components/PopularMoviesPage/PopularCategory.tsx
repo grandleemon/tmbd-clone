@@ -1,4 +1,3 @@
-import axios from 'axios'
 import {useState, useEffect} from 'react'
 import { movieApi } from '../../api';
 import useDocumentTitle from '../../hooks/useTitle';
@@ -28,8 +27,8 @@ const PopularCategory = () => {
     }
 
     const loadMore = () => {
-        setPage(page + 1)
         getMoreMovies();
+        setPage(page + 1)
     }
 
     useEffect( () => {
@@ -46,10 +45,10 @@ const PopularCategory = () => {
             {movies.length ? 
             <div>
                 <div className="flex flex-wrap gap-x-[40px] gap-y-[40px] mt-[20px] justify-center">
-                {movies.map( movie => (
+                {movies.map( (movie, index) => (
                     <MovieCard 
                     id={movie.id} 
-                    key={movie.id} 
+                    key={index} 
                     title={movie.title} 
                     poster_path={movie.poster_path} 
                     release_date={movie.release_date} 

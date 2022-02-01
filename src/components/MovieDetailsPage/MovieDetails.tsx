@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { movieApi } from '../../api'
 import CastCreditDetails from './MovieDetailsComponents/CastCreditDetails'
@@ -10,6 +10,7 @@ import MovieInfo from './MovieDetailsComponents/MovieInfo'
 import useDocumentTitle from '../../hooks/useTitle'
 import { MovieDetailsTypes } from '../../models/movie/movieTypes'
 import { numberWithCommas } from '../../utils/numberWithCommas'
+import withUserSession from '../../decorators/withUserSession'
 import './MovieDetails.css'
 
 const MovieDetails = () => {
@@ -17,9 +18,10 @@ const MovieDetails = () => {
     const [movieDetails, setMovieDetails] = useState<MovieDetailsTypes>()
     
     useEffect( () => {
-        if(id)  
+        if (id) {
             movieApi.getMovieDetails(id)
             .then(({ data, error }: any) => data ? setMovieDetails(data) : console.error(error))
+        }
     }, [id])  
     
     useDocumentTitle(movieDetails?.title)
@@ -89,4 +91,4 @@ const MovieDetails = () => {
     )
 }
 
-export default MovieDetails
+export default MovieDetails;
