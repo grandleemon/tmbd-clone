@@ -18,8 +18,8 @@ const CrewCreditDetails: FC<IProps> = ({id, movieDetails}) => {
 
     return (
         <>
-            {crewDetails?.slice(0, 7).map( credit => (
-                <div className="w-[150px]">
+            {crewDetails?.slice(0, 7).map( (credit, index) => (
+                <div key={index} className="w-[150px]">
                     <span className="font-bold">{credit.name}</span>
                     <p className="text-[14px]">{credit.job}</p>
                 </div>

@@ -3,8 +3,6 @@ import { userInfoSlice } from "./features/userInfo";
 import { userSessionSlice } from "./features/userSession";
 import { userTokenSlice } from "./features/userToken";
 
-
-
 const store = configureStore({
     reducer: {
         userInfo: userInfoSlice.reducer,

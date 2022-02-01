@@ -27,7 +27,7 @@ const MovieRecomendations: FC<IProps> = ({id, movieDetails}) => {
     <>
       {recomendations?.map(
         recomendation => (
-          <div
+          <div key={recomendation.id}
             className="w-[250px] h-[184px] cursor-pointer"
             onClick={() =>
               handleNavigate(recomendation.id, recomendation.title)

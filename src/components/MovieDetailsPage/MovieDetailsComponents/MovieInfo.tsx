@@ -72,8 +72,8 @@ const MovieInfo: FC<IProps> = ({movieDetails}) => {
                                 <span className="ml-[10px]">{moment(movieDetails?.release_date).format('L')}</span>
                                 <span className="ml-[10px]">({movieDetails?.production_countries[0]?.iso_3166_1})</span>
                                     <span className="ml-[10px]">&bull;</span>
-                                    {movieDetails?.genres.map( (genre: {name: string}) => (
-                                        <span className="ml-[10px]">{genre.name}</span>
+                                    {movieDetails?.genres.map( (genre: {name: string, id: number}) => (
+                                        <span key={genre.id} className="ml-[10px]">{genre.name}</span>
                                     ))}
                                     <span className="mx-[10px]">&bull;</span>
                                 <span>{calcTime(movieDetails?.runtime)}</span>
@@ -103,8 +103,8 @@ const MovieInfo: FC<IProps> = ({movieDetails}) => {
                                 <span className="ml-[10px]">({movieDetails?.production_countries[0]?.iso_3166_1})</span>
                                 <div className="flex flex-wrap">
                                     <span className="ml-[10px]">&bull;</span>
-                                    {movieDetails?.genres.map( (genre: {name: string}) => (
-                                        <span className="ml-[10px]">{genre.name}</span>
+                                    {movieDetails?.genres.map( (genre: {name: string, id: number}) => (
+                                        <span key={genre.id} className="ml-[10px]">{genre.name}</span>
                                     ))}
                                     <span className="mx-[10px]">&bull;</span>
                                 </div>       

@@ -8,6 +8,7 @@ type ReviewsTypes = {
   author: string;
   created_at: string;
   author_details: { avatar_path: string };
+  id: number
 }
 
 const MovieReviews: FC<IProps> = ({id, movieDetails}) => {
@@ -22,7 +23,7 @@ const MovieReviews: FC<IProps> = ({id, movieDetails}) => {
     <>
       {reviews.map(
         review => (
-          <div className="border p-[20px]  rounded-md shadow-lg">
+          <div key={review.id} className="border p-[20px]  rounded-md shadow-lg">
             <div className="flex">
               {review?.author_details?.avatar_path ? (
                 <img
