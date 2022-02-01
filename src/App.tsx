@@ -32,7 +32,7 @@ function App() {
         <Route path="/keyword/:id-:name" element={<MoreMoviesByKeyword />}/>
         <Route path="/account/:id/favorites" element={<FavoritesMovies />}/>
         <Route path="/account/approved" element={<Approved />}/>
-        <Route path="*" element={<Navigate to="/" />}/>
+        {/* <Route path="*" element={<Navigate to="/" />}/> */}
       </Routes>
       <Footer />
     </div>
