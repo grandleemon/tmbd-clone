@@ -5,6 +5,7 @@ import { movieApi } from '../../api'
 import useDocumentTitle from '../../hooks/useTitle'
 import SearchBar from '../SearchBar'
 import loader from './../../assets/loader.gif'
+import './Home.css'
 
 type Movie = {
     title: string,

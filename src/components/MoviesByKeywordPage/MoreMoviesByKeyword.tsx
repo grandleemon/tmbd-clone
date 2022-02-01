@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { movieApi } from '../../api'
 import useDocumentTitle from '../../hooks/useTitle'
+import loader from './../../assets/loader.gif'
 
 type MoviesByKeywordTypes = {
   title: string;
@@ -37,6 +38,7 @@ const MoreMoviesByKeyword = () => {
                 <div className="w-[95%] m-auto md:w-[80%] lg:w-[70%]">{name}</div>
             </div>
             <div className="w-[95%] m-auto md:w-[80%] lg:w-[70%]">
+                {moviesByKeyword.length ? 
                 <div className="flex flex-col gap-y-[30px] mt-[30px]">
                 {moviesByKeyword?.map(movie => (
                     <div className="w-full min-h-[141px] border shadow-lg cursor-pointer grid grid-cols-12 gap-x-[10px] rounded-l-md hover:translate-y-[-15px] duration-300 mobile:grid-cols-1 mobile:gap-x-0" onClick={() => handleNavigate(movie.id, movie.title)}>
@@ -56,7 +58,10 @@ const MoreMoviesByKeyword = () => {
                         </div>
                     </div>
                 ))}
-                </div>
+                </div>  : 
+                <div className="flex justify-center items-center h-[80vh]">
+                    <img src={loader} alt="" />
+                </div> }
             </div>
         </div>
     )
