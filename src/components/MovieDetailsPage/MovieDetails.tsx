@@ -10,7 +10,6 @@ import MovieInfo from './MovieDetailsComponents/MovieInfo'
 import useDocumentTitle from '../../hooks/useTitle'
 import { MovieDetailsTypes } from '../../models/movie/movieTypes'
 import { numberWithCommas } from '../../utils/numberWithCommas'
-import withUserSession from '../../decorators/withUserSession'
 import './MovieDetails.css'
 
 const MovieDetails = () => {

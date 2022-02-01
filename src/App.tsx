@@ -8,10 +8,10 @@ import MovieDetails from './components/MovieDetailsPage/MovieDetails';
 import Footer from './components/Footer/Footer';
 import MoreMoviesByKeyword from './components/MoviesByKeywordPage/MoreMoviesByKeyword';
 import FavoritesMovies from './components/FavoriteMoviesPage/FavoritesMovies';
+import Approved from './components/Approved/Approved';
 import { fetchRequestToken } from './store/features/userToken/userTokenSlice';
 import useScrollToTop from './hooks/useScrollToTop';
 import './App.css';
-import withUserSession from './decorators/withUserSession';
 
 
 function App() {
@@ -30,8 +30,9 @@ function App() {
         <Route path="/movie" element={<PopularCategory/>}/>
         <Route path="/movie/:id-:title" element={<MovieDetails />}/>
         <Route path="/keyword/:id-:name" element={<MoreMoviesByKeyword />}/>
-        <Route path="*" element={<Navigate to="/" />}/>
         <Route path="/account/:id/favorites" element={<FavoritesMovies />}/>
+        <Route path="/account/approved" element={<Approved />}/>
+        <Route path="*" element={<Navigate to="/" />}/>
       </Routes>
       <Footer />
     </div>
@@ -39,4 +40,4 @@ function App() {
   
 }
 
-export default withUserSession(App);
+export default App;
