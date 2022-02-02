@@ -9,7 +9,7 @@ import './index.css';
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
-      <HashRouter basename={process.env.PUBLIC_URL}>
+      <HashRouter basename={process.env.REACT_APP_PUBLIC_URL}>
         <App />
       </HashRouter>
     </React.StrictMode>
