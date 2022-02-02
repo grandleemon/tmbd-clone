@@ -9,7 +9,7 @@ import './index.css';
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
-      <BrowserRouter basename="/tmdb-clone">
+      <BrowserRouter basename="/">
         <App />
       </BrowserRouter>
     </React.StrictMode>
