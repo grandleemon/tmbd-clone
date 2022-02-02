@@ -9,7 +9,7 @@ import './index.css';
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
-      <HashRouter basename="/tmdb-clone">
+      <HashRouter basename={process.env.PUBLIC_URL}>
         <App />
       </HashRouter>
     </React.StrictMode>
