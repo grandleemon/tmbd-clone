@@ -87,7 +87,7 @@ const Header: FC = () => {
                         <ul className="flex items-center gap-[20px]">
                             {!userInfo.id ? 
                             <li>
-                                <a href={`https://www.themoviedb.org/authenticate/${requestToken.userToken}?redirect_to=https://grandleemon.github.io/account/approved`}> 
+                                <a href={`https://www.themoviedb.org/authenticate/${requestToken.userToken}?redirect_to=https://tmdb2441414.herokuapp.com/tmdb-clone/account/approved`}> 
                                     <img src={user} alt="" className="w-[32px] h-[32px]" /> 
                                 </a>
                             </li> : 
@@ -123,7 +123,7 @@ const Header: FC = () => {
                                         <span className="hover:bg-gray-300 block px-[20px] pb-[3px]" onClick={handleDelete}>Log Out</span>
                                     </li> : 
                                     <li> <a 
-                                    href={`https://www.themoviedb.org/authenticate/${requestToken.userToken}?redirect_to=https://grandleemon.github.io/account/approved`}
+                                    href={`https://www.themoviedb.org/authenticate/${requestToken.userToken}?redirect_to=https://tmdb2441414.herokuapp.com/tmdb-clone/account/approved`}
                                     className="px-[20px] block py-[3px]">Log In</a>
                                     </li> 
                                     }
