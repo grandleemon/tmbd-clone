@@ -87,7 +87,7 @@ const Header: FC = () => {
                         <ul className="flex items-center gap-[20px]">
                             {!userInfo.id ? 
                             <li>
-                                <a href={`https://www.themoviedb.org/authenticate/${requestToken.userToken}?redirect_to=https://grandleemon.github.io/tmdb-clone/account/approved`}> 
+                                <a href={`https://www.themoviedb.org/authenticate/${requestToken.userToken}?redirect_to=https://grandleemon.github.io/tmdb-clone/#/account/approved`}> 
                                     <img src={user} alt="" className="w-[32px] h-[32px]" /> 
                                 </a>
                             </li> : 
